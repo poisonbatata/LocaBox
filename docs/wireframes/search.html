@@ -1,0 +1,288 @@
+<html>
+  <head>
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="" />
+    <link
+      rel="stylesheet"
+      as="style"
+      onload="this.rel='stylesheet'"
+      href="https://fonts.googleapis.com/css2?display=swap&amp;family=Noto+Sans%3Awght%40400%3B500%3B700%3B900&amp;family=Space+Grotesk%3Awght%40400%3B500%3B700"
+    />
+
+    <title>Stitch Design</title>
+    <link rel="icon" type="image/x-icon" href="data:image/x-icon;base64," />
+
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  </head>
+  <body>
+    <div class="relative flex size-full min-h-screen flex-col bg-[#141414] dark group/design-root overflow-x-hidden" style='font-family: "Space Grotesk", "Noto Sans", sans-serif;'>
+      <div class="layout-container flex h-full grow flex-col">
+        <header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-b-[#303030] px-10 py-3">
+          <div class="flex items-center gap-8">
+            <div class="flex items-center gap-4 text-white">
+              <div class="size-4">
+                <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <g clip-path="url(#clip0_6_330)">
+                    <path
+                      fill-rule="evenodd"
+                      clip-rule="evenodd"
+                      d="M24 0.757355L47.2426 24L24 47.2426L0.757355 24L24 0.757355ZM21 35.7574V12.2426L9.24264 24L21 35.7574Z"
+                      fill="currentColor"
+                    ></path>
+                  </g>
+                  <defs>
+                    <clipPath id="clip0_6_330"><rect width="48" height="48" fill="white"></rect></clipPath>
+                  </defs>
+                </svg>
+              </div>
+              <h2 class="text-white text-lg font-bold leading-tight tracking-[-0.015em]">LocaBox</h2>
+            </div>
+            <div class="flex items-center gap-9">
+              <a class="text-white text-sm font-medium leading-normal" href="#">Rent</a>
+              <a class="text-white text-sm font-medium leading-normal" href="#">List your gear</a>
+              <a class="text-white text-sm font-medium leading-normal" href="#">Help</a>
+            </div>
+          </div>
+          <div class="flex flex-1 justify-end gap-8">
+            <label class="flex flex-col min-w-40 !h-10 max-w-64">
+              <div class="flex w-full flex-1 items-stretch rounded-xl h-full">
+                <div
+                  class="text-[#ababab] flex border-none bg-[#303030] items-center justify-center pl-4 rounded-l-xl border-r-0"
+                  data-icon="MagnifyingGlass"
+                  data-size="24px"
+                  data-weight="regular"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
+                    <path
+                      d="M229.66,218.34l-50.07-50.06a88.11,88.11,0,1,0-11.31,11.31l50.06,50.07a8,8,0,0,0,11.32-11.32ZM40,112a72,72,0,1,1,72,72A72.08,72.08,0,0,1,40,112Z"
+                    ></path>
+                  </svg>
+                </div>
+                <input
+                  placeholder="Search"
+                  class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-xl text-white focus:outline-0 focus:ring-0 border-none bg-[#303030] focus:border-none h-full placeholder:text-[#ababab] px-4 rounded-l-none border-l-0 pl-2 text-base font-normal leading-normal"
+                  value=""
+                />
+              </div>
+            </label>
+            <div class="flex gap-2">
+              <button
+                class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 px-4 bg-black text-white text-sm font-bold leading-normal tracking-[0.015em]"
+              >
+                <span class="truncate">Sign up</span>
+              </button>
+              <button
+                class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 px-4 bg-[#303030] text-white text-sm font-bold leading-normal tracking-[0.015em]"
+              >
+                <span class="truncate">Log in</span>
+              </button>
+            </div>
+          </div>
+        </header>
+        <div class="px-40 flex flex-1 justify-center py-5">
+          <div class="layout-content-container flex flex-col max-w-[960px] flex-1">
+            <div class="px-4 py-3">
+              <label class="flex flex-col min-w-40 h-12 w-full">
+                <div class="flex w-full flex-1 items-stretch rounded-xl h-full">
+                  <div
+                    class="text-[#ababab] flex border-none bg-[#303030] items-center justify-center pl-4 rounded-l-xl border-r-0"
+                    data-icon="MagnifyingGlass"
+                    data-size="24px"
+                    data-weight="regular"
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
+                      <path
+                        d="M229.66,218.34l-50.07-50.06a88.11,88.11,0,1,0-11.31,11.31l50.06,50.07a8,8,0,0,0,11.32-11.32ZM40,112a72,72,0,1,1,72,72A72.08,72.08,0,0,1,40,112Z"
+                      ></path>
+                    </svg>
+                  </div>
+                  <input
+                    placeholder="Search for tools and equipment"
+                    class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-xl text-white focus:outline-0 focus:ring-0 border-none bg-[#303030] focus:border-none h-full placeholder:text-[#ababab] px-4 rounded-l-none border-l-0 pl-2 text-base font-normal leading-normal"
+                    value=""
+                  />
+                </div>
+              </label>
+            </div>
+            <div class="flex gap-3 p-3 flex-wrap pr-4">
+              <button class="flex h-8 shrink-0 items-center justify-center gap-x-2 rounded-full bg-[#303030] pl-4 pr-2">
+                <p class="text-white text-sm font-medium leading-normal">Category</p>
+                <div class="text-white" data-icon="CaretDown" data-size="20px" data-weight="regular">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill="currentColor" viewBox="0 0 256 256">
+                    <path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z"></path>
+                  </svg>
+                </div>
+              </button>
+              <button class="flex h-8 shrink-0 items-center justify-center gap-x-2 rounded-full bg-[#303030] pl-4 pr-2">
+                <p class="text-white text-sm font-medium leading-normal">Price</p>
+                <div class="text-white" data-icon="CaretDown" data-size="20px" data-weight="regular">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill="currentColor" viewBox="0 0 256 256">
+                    <path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z"></path>
+                  </svg>
+                </div>
+              </button>
+              <button class="flex h-8 shrink-0 items-center justify-center gap-x-2 rounded-full bg-[#303030] pl-4 pr-2">
+                <p class="text-white text-sm font-medium leading-normal">Location</p>
+                <div class="text-white" data-icon="CaretDown" data-size="20px" data-weight="regular">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill="currentColor" viewBox="0 0 256 256">
+                    <path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z"></path>
+                  </svg>
+                </div>
+              </button>
+              <button class="flex h-8 shrink-0 items-center justify-center gap-x-2 rounded-full bg-[#303030] pl-4 pr-2">
+                <p class="text-white text-sm font-medium leading-normal">Rating</p>
+                <div class="text-white" data-icon="CaretDown" data-size="20px" data-weight="regular">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill="currentColor" viewBox="0 0 256 256">
+                    <path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z"></path>
+                  </svg>
+                </div>
+              </button>
+            </div>
+            <div class="grid grid-cols-[repeat(auto-fit,minmax(158px,1fr))] gap-3 p-4">
+              <div class="flex flex-col gap-3 pb-3">
+                <div
+                  class="w-full bg-center bg-no-repeat aspect-square bg-cover rounded-xl"
+                  style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDoXBuTb5a6BAtrLFRLIDidDO8UMyi96m7TCw2PlEVtxRCPzsFsB_Ut5zIyOg7uwSVAuTsyxrYRc5YL7e9PeIfrR5w4jlbc3BRyiYHTEW5sFg10gP75YHq9rALbnavZ8VCGhpTouvTnXvzAbS4m5t7MgHqamblgl9O0OGRh_x8gfv9eCzuaJcgTYhKyCOY5CGkI_oKmCj3ZU7XktCqXKRTPKj1zg3uZIs1D_UhGqoi03ZIhQRjGQCDlXVDCAw0XHQZM4TaeEencUtQ");'
+                ></div>
+                <div>
+                  <p class="text-white text-base font-medium leading-normal">Bosch Hammer Drill</p>
+                  <p class="text-[#ababab] text-sm font-normal leading-normal">$25/day · 4.5 stars</p>
+                </div>
+              </div>
+              <div class="flex flex-col gap-3 pb-3">
+                <div
+                  class="w-full bg-center bg-no-repeat aspect-square bg-cover rounded-xl"
+                  style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAhDPW2tsoIwZI7aZUslHfd3Jr4GWjpee0zux-Ptur3Z55Gmq65FxnoTw43PEdkJhAWK8EKUe0zhd2KLaXgu9LlatqLV2nlL3lsQWjN_ccMqFrQmTo-GeuilNL3mxptRRqGzRa6DBxPhodruMFJlsFTJ5MlxIjRlKAny-5pCXD2JGlr5kc5aTWbrqLUJfEgx5QQ1rVd5nX2zbdv02o3HTDjUGfrX5IvWDKmr8HUhbXjPrmj7hcmd4x5PO2o-rSo-LfnyoIDw8mzkPY");'
+                ></div>
+                <div>
+                  <p class="text-white text-base font-medium leading-normal">DeWalt Circular Saw</p>
+                  <p class="text-[#ababab] text-sm font-normal leading-normal">$30/day · 4.7 stars</p>
+                </div>
+              </div>
+              <div class="flex flex-col gap-3 pb-3">
+                <div
+                  class="w-full bg-center bg-no-repeat aspect-square bg-cover rounded-xl"
+                  style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCW5vU-jbHZ_QpzNDhZDQmlTDv-XE6FBABrSq5hjtaX1tEMKWHa_1sn9bsut9G8WAgfn5ghTxhl-K2qq7M7ZeZKIrQnZIPXG8sUMtiN1R8mwynuHlJVVoL1GOitvBM-qKZNeINVM7zGHeLW3uJpqt3nF-VigORekFfgXi4_jw2Innxg2WPnzQquF0aebGtEk4i3x4QLvszUuhQsPSDHDAC4VxKqDwadbE0Qje9hXyBnhOgcApbJm7RfGZRxfSRh4fdyVMV6-O201dc");'
+                ></div>
+                <div>
+                  <p class="text-white text-base font-medium leading-normal">Ryobi Leaf Blower</p>
+                  <p class="text-[#ababab] text-sm font-normal leading-normal">$20/day · 4.2 stars</p>
+                </div>
+              </div>
+              <div class="flex flex-col gap-3 pb-3">
+                <div
+                  class="w-full bg-center bg-no-repeat aspect-square bg-cover rounded-xl"
+                  style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuD4v55Ih43Ltdmgoby58X5vXjEaau0V2pKUM9QDaX9TJ93xGKs-Bu3LgSSVRblweLZHUaL6PMgpfNKOPWAOSonBcqACmm005H-eZMAl4ItXrwMZG3jGG1eHYB8WPKBaDssjcWU7wQY6HjUHy0IKuYg9bV8h3CPDszNnjQt7lW0-TWtgAkhfbN7brbvw5nPVggq1QBSj5SVjZdxvqQwvjmDSz6BC03I4LhoBdziQJBo6qwZSJE-RsHw7IQ9ghHEIc-IXiA4mNXIoAw0");'
+                ></div>
+                <div>
+                  <p class="text-white text-base font-medium leading-normal">Craftsman Lawn Mower</p>
+                  <p class="text-[#ababab] text-sm font-normal leading-normal">$35/day · 4.8 stars</p>
+                </div>
+              </div>
+              <div class="flex flex-col gap-3 pb-3">
+                <div
+                  class="w-full bg-center bg-no-repeat aspect-square bg-cover rounded-xl"
+                  style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuABRhBq6ohPAqicN96UP8aWUk9LdE94hYzWeLXh6_2Dq1rQ-QLlQzaHUAjmvv52eDLNIdqLXprrugcitLaoPAwCWMdE6jbTUs6gkQwvzFDX5st-AOYmoIOjlO7oetor8VpO9LVzuMFPXRRxp3xrU-_QOplzXt8YGT0js9_VIRUuzLqxiBJO_7jH5NoHrDCv8hl0joJGg_PbpZEKrToKqEEiE4LicnoOYfljmZDym-FiOJAslr4fhUGKc7Qe_Qr2jjRe2ppPxdAJOkI");'
+                ></div>
+                <div>
+                  <p class="text-white text-base font-medium leading-normal">Makita Impact Driver</p>
+                  <p class="text-[#ababab] text-sm font-normal leading-normal">$22/day · 4.6 stars</p>
+                </div>
+              </div>
+              <div class="flex flex-col gap-3 pb-3">
+                <div
+                  class="w-full bg-center bg-no-repeat aspect-square bg-cover rounded-xl"
+                  style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDqDL519Qt5P8EuyP3P0U92KO7DIVbskzJ9512L-7HVmK0ikaj8QPRWtItWVyntdN5p7uQ4PKJI-uVP4p1Uhxj1W_xGVx5xIjRyykzTTReyCPGjA-Zlmp7PEAeTf10PBm00exdBgExgCbCDtAmQSpJ5PC6mNyCkr3RBvH16UiKzzYWx9K7612nmWt3dS_cxKHQFXriNq5DdY6_QW1YdhOUrMDAaEtgMfnhf-EWPJe5fOSn6RTZulKVgqwPX0X7XnhkBqg1pKL5ZHB4");'
+                ></div>
+                <div>
+                  <p class="text-white text-base font-medium leading-normal">Milwaukee Angle Grinder</p>
+                  <p class="text-[#ababab] text-sm font-normal leading-normal">$28/day · 4.4 stars</p>
+                </div>
+              </div>
+              <div class="flex flex-col gap-3 pb-3">
+                <div
+                  class="w-full bg-center bg-no-repeat aspect-square bg-cover rounded-xl"
+                  style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAZKKLN15V79g1WjLeQsuob2uEGY1znKO5yNlIk-UFtGdgU2rCNdQB814YYm3Ub2hiJZOWFaVIsIpIp232KpC61WPBf9-G5Ra2DCOm_-UKUnU3esaEWr-6e0tyr6ppJvMsoj7Akwp2hPzcwkGIBIbxmgLWzk7gNbph60TQ7nnrI4bOw8rpoVvFKhJtSkmmgGUstNhOHTip9LISbgojVZQUy9WzJvSlv9flLKMOQuLWdzMeaycMMr2RHHb2KOjC6H9MlwVqiGhvr5oQ");'
+                ></div>
+                <div>
+                  <p class="text-white text-base font-medium leading-normal">Stihl Chainsaw</p>
+                  <p class="text-[#ababab] text-sm font-normal leading-normal">$40/day · 4.9 stars</p>
+                </div>
+              </div>
+              <div class="flex flex-col gap-3 pb-3">
+                <div
+                  class="w-full bg-center bg-no-repeat aspect-square bg-cover rounded-xl"
+                  style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCAtTGiDRIgaCbp_XfHbSmtw04YBSm50huCR-JPA3IwKonblwpMt-oLvZtvfczE16ORmnNddME6L_b4sCENSQ3fMU9YyrcpMp9o8LrCB5J68qjE50pnWI56eKjzSN7ZPkheTZf85EPkCIKf3aw3yVjNuilJJxaNR-TpSr_nxmPOeX5SfIwAtWzB_8-Ud-60oRyYXX1ZNQKtpapHwU5T4uVbH1SdQ7M91fSS7RdtumIsBJZynKe9Lnu-O2oN5GIbT5ZcPp37S4LYEMw");'
+                ></div>
+                <div>
+                  <p class="text-white text-base font-medium leading-normal">Porter-Cable Router</p>
+                  <p class="text-[#ababab] text-sm font-normal leading-normal">$27/day · 4.3 stars</p>
+                </div>
+              </div>
+              <div class="flex flex-col gap-3 pb-3">
+                <div
+                  class="w-full bg-center bg-no-repeat aspect-square bg-cover rounded-xl"
+                  style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCmnqlSCnwmdwi-tYzZvvBiFVGElsx5kTXwaKT3G7hFlmVuYKL7D0nr2N9jcZz13nN04FHFgxOX_4q59ZejMKpy2qkb9HS4SHGKfq9AcZLShefQoblq6VtUC-IAM3Pb4ZQZCuPvWoKZJf03kMVzopU8Pm9zsyiHZ_wAZoSG8i5P0cUs3sYCF7H77Z4sKh9A32GEPa-jgwvLb281lQc7V5NPs41__Z_HYG4h0uvYW_jfXZmzbZQkAO53Qe0hedTVNAB32Qr3FrTT7L0");'
+                ></div>
+                <div>
+                  <p class="text-white text-base font-medium leading-normal">Black+Decker Jigsaw</p>
+                  <p class="text-[#ababab] text-sm font-normal leading-normal">$18/day · 4.1 stars</p>
+                </div>
+              </div>
+              <div class="flex flex-col gap-3 pb-3">
+                <div
+                  class="w-full bg-center bg-no-repeat aspect-square bg-cover rounded-xl"
+                  style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuA4pchPdRNKs0nxEdHu2roobvn1J4Dy7rxPYbiRsIFg1hpwQCec2mhStYjYWHbiOA7m8CgtK2XvL5AV_E1haF36_wZ7l6Xtwj9lP1PiVSIj56CEn1Pe-EU5-VifiA__RPOjQEG083k0WLBpVeYjF0E0-kGuJhHHlhXao-fxpuJoPW86az8VeycvcvBvDIdWD0-C7Hyq2VOZ6_9bu2UtGPb-VZ9HDnea-OtKiMDifTLxwTl_7Djm9pg_-_5v3fgnqV66CaSkM0EJI60");'
+                ></div>
+                <div>
+                  <p class="text-white text-base font-medium leading-normal">Ridgid Pipe Wrench</p>
+                  <p class="text-[#ababab] text-sm font-normal leading-normal">$15/day · 4.0 stars</p>
+                </div>
+              </div>
+              <div class="flex flex-col gap-3 pb-3">
+                <div
+                  class="w-full bg-center bg-no-repeat aspect-square bg-cover rounded-xl"
+                  style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDRFITAvDTg6JR2Z8dTV1Wenw3GR2qkyg7C0wTEyR_i7NQ6c5mRXdDZTn-yKnz27Wd7fU_d6sL1X0YXbQbGUHDvLC0PHzR4XKazPwiOuwI_fNFLwWM6beCtdDA4uXrCPuiOksdUfelId6tv2hvGhlr_bulX_C6uNgbruAd36yk5e5q62IKFOXcPnZkAD6vuvXSXwsXgicb9OZsWnq3K46rkTi_5xTNpVd26nU2FxRKDZLd8wKjn6NOjP557WR1oCZ0rgVcVt9Kb154");'
+                ></div>
+                <div>
+                  <p class="text-white text-base font-medium leading-normal">Irwin Clamps</p>
+                  <p class="text-[#ababab] text-sm font-normal leading-normal">$12/day · 4.5 stars</p>
+                </div>
+              </div>
+              <div class="flex flex-col gap-3 pb-3">
+                <div
+                  class="w-full bg-center bg-no-repeat aspect-square bg-cover rounded-xl"
+                  style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBppvxlSRMWPZudCSM_IZp3AtzloBmgoAlYGrKgDBd_23Ud6Sv68R04-tdmOMzHXybjffrIeOobt_QIkDqhZP6F_Z-HlrQqWPJ0toCMaOTgnrwzm5R9A_OkZgB5HxMd1Qp8l6Lc7vcrPhdAX9LHqzIGGY6Z7yO0pond9V96v8U9FxLKH1jvS3gj3LGWHRHVtRVSIZaQhrxhxxPCjyCQnzcYF6vlVsnW9W1ZnjGVDVVlGHWWTmJgXj3U2N2cF7MlF7NDqd6xyDruTZs");'
+                ></div>
+                <div>
+                  <p class="text-white text-base font-medium leading-normal">Stanley Tape Measure</p>
+                  <p class="text-[#ababab] text-sm font-normal leading-normal">$8/day · 4.7 stars</p>
+                </div>
+              </div>
+            </div>
+            <div class="flex items-center justify-center p-4">
+              <a href="#" class="flex size-10 items-center justify-center">
+                <div class="text-white" data-icon="CaretLeft" data-size="18px" data-weight="regular">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="18px" height="18px" fill="currentColor" viewBox="0 0 256 256">
+                    <path d="M165.66,202.34a8,8,0,0,1-11.32,11.32l-80-80a8,8,0,0,1,0-11.32l80-80a8,8,0,0,1,11.32,11.32L91.31,128Z"></path>
+                  </svg>
+                </div>
+              </a>
+              <a class="text-sm font-bold leading-normal tracking-[0.015em] flex size-10 items-center justify-center text-white rounded-full bg-[#303030]" href="#">1</a>
+              <a class="text-sm font-normal leading-normal flex size-10 items-center justify-center text-white rounded-full" href="#">2</a>
+              <a class="text-sm font-normal leading-normal flex size-10 items-center justify-center text-white rounded-full" href="#">3</a>
+              <a class="text-sm font-normal leading-normal flex size-10 items-center justify-center text-white rounded-full" href="#">4</a>
+              <a class="text-sm font-normal leading-normal flex size-10 items-center justify-center text-white rounded-full" href="#">5</a>
+              <a href="#" class="flex size-10 items-center justify-center">
+                <div class="text-white" data-icon="CaretRight" data-size="18px" data-weight="regular">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="18px" height="18px" fill="currentColor" viewBox="0 0 256 256">
+                    <path d="M181.66,133.66l-80,80a8,8,0,0,1-11.32-11.32L164.69,128,90.34,53.66a8,8,0,0,1,11.32-11.32l80,80A8,8,0,0,1,181.66,133.66Z"></path>
+                  </svg>
+                </div>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
