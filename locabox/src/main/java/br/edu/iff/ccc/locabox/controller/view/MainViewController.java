@@ -1,4 +1,4 @@
-package br.edu.iff.ccc.webdevg2.controller.view;
+package br.edu.iff.ccc.locabox.controller.view;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
