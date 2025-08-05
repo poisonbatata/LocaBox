@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>br.edu.iff.ccc</groupId>
-	<artifactId>webdevg2</artifactId>
+	<artifactId>locabox</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>webdevg2</name>
+	<name>locabox</name>
 	<description>Demo project for Spring Boot</description>
 	<url/>
 	<licenses>
