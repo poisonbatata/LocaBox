@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="#{app.title}">App Home</title>
+</head>
+<body>
+    <h1 th:text="#{app.welcome.message}">Welcome</h1>
+    <p th:text="#{app.description}">Description do app</p>
+    <p th:text="#{app.userId(${id})}">ID Placeholder</p>
+
+    <p th:text="#{app.userName(${userName})}">Nome do Usuário Placeholder</p>
+    <p th:text="#{app.userEmail(${userEmail})}">Email do Usuário Placeholder</p>
+</body>
+</html>
