@@ -26,6 +26,73 @@ public class MainViewController {
         return "home.html";
     }
 
+    // CONTROLLERS DO USER
+    /* Preciso:
+        - Criar um usuário
+        - Logar um usuário
+        - Deslogar um usuário
+        - Editar um usuário
+        - Deletar um usuário
+        - Ver detalhes de um usuário
+        - Esqueci minha senha
+     */
+
+    @PostMapping(path = "/user/signup")
+    @ResponseBody
+    public String createUser(
+            @RequestParam String nome,
+            @RequestParam String email,
+            @RequestParam String senha) {
+        System.out.println("Usuário cadastrado:");
+        System.out.println("Nome: " + nome);
+        System.out.println("Email: " + email);
+        System.out.println("Senha: " + senha);
+
+        return "Usuário cadastrado com sucesso: " + nome + " | " + email;
+    }
+
+    @PostMapping(path = "/user/login")
+    @ResponseBody
+    public String loginUser(
+            @RequestParam String email,
+            @RequestParam String senha) {
+        System.out.println("Usuário logado:");
+        System.out.println("Email: " + email);
+        System.out.println("Senha: " + senha);
+
+        return "Usuário logado com sucesso: " + email;
+    }
+
+    @PostMapping(path = "/user/logout")
+    @ResponseBody
+    public String logoutUser(
+            @RequestParam String userId) {
+        System.out.println("Usuário deslogado:");
+        System.out.println("ID do usuário: " + userId);
+
+        return "Usuário deslogado com sucesso: " + userId;
+    }
+
+    @PostMapping(path = "/user/edit")
+    @ResponseBody
+    public String editUser(
+            @RequestBody Map<String, Object> userData) {
+        System.out.println("Usuário editado:");
+        System.out.println("Dados do usuário: " + userData);
+
+        return "Usuário editado com sucesso: " + userData.get("nome");
+    }
+
+    @PostMapping(path = "/user/delete")
+    @ResponseBody
+    public String deleteUser(
+            @RequestParam String userId) {
+        System.out.println("Usuário deletado:");
+        System.out.println("ID do usuário: " + userId);
+
+        return "Usuário deletado com sucesso: " + userId;
+    }
+
     @GetMapping(path = "/user/{id}")
     public String getUseById(@PathVariable("id") String id, Model model) {
         model.addAttribute("id", id);
@@ -36,6 +103,29 @@ public class MainViewController {
         return "userDetailHome.html";
     }
 
+    @GetMapping(path = "/user/forgot-password")
+    @ResponseBody
+    public String forgotPassword(
+            @RequestParam String email) {
+        System.out.println("Solicitação de recuperação de senha:");
+        System.out.println("Email: " + email);
+
+        return "Instruções de recuperação de senha enviadas para: " + email;
+    }
+
+    // -=-=-=- FIM CONTROLLERS DO USER -=-=-=- //
+
+
+    // CONTROLLERS DO TOOL
+    /* Preciso:
+        - Criar uma ferramenta
+        - Editar uma ferramenta
+        - Deletar uma ferramenta
+        - Listar ferramentas (filtros por categoria, preço, localização, disponibilidade)
+        - Ver detalhes de uma ferramenta
+        - Buscar ferramentas
+        - Ver ferramentas de um usuário
+     */
     @GetMapping(path = "/tool/{id}")
     public String getToolById(@PathVariable("id") String id, Model model) {
         // Título e descrição do produto
@@ -120,15 +210,127 @@ public class MainViewController {
     public String createTool(
             @RequestParam String nome,
             @RequestParam String descricao,
-            @RequestParam double preco) {
+            @RequestParam String categoria,
+            @RequestParam double preco,
+            @RequestParam String condicao,
+            @RequestParam String disponibilidade,
+            @RequestParam String fotos) {
         System.out.println("Produto cadastrado:");
         System.out.println("Nome: " + nome);
         System.out.println("Descrição: " + descricao);
         System.out.println("Preço: R$" + preco);
+        System.out.println("Categoria: " + categoria);
+        System.out.println("Condição: " + condicao);
+        System.out.println("Disponibilidade: " + disponibilidade);
+        System.out.println("Fotos: " + fotos);
 
         return "Produto cadastrado com sucesso: " + nome + " | " + descricao + " | R$" + preco;
     }
     
+    @PostMapping(path = "/tool/edit")
+    @ResponseBody
+    public String editTool(
+            @RequestBody Map<String, Object> toolData) {
+        System.out.println("Produto editado:");
+        System.out.println("Dados do produto: " + toolData);
+
+        return "Produto editado com sucesso: " + toolData.get("nome");
+    }
+
+    @PostMapping(path = "/tool/delete")
+    @ResponseBody
+    public String deleteTool(
+            @RequestParam String toolId) {
+        System.out.println("Produto deletado:");
+        System.out.println("ID do produto: " + toolId);
+
+        return "Produto deletado com sucesso: " + toolId;
+    }
+
+    @GetMapping(path = "/tool/list")
+    @ResponseBody
+    public List<Map<String, Object>> listTools() {
+        List<Map<String, Object>> tools = new ArrayList<>();
+        
+        // Mock de ferramentas
+        for (int i = 1; i <= 5; i++) {
+            Map<String, Object> tool = new HashMap<>();
+            tool.put("id", i);
+            tool.put("name", "Furadeira " + i);
+            tool.put("description", "Descrição da furadeira " + i);
+            tool.put("price", 25.0 * i);
+            tool.put("imageUrl", "https://example.com/tool" + i + ".jpg");
+            tools.add(tool);
+        }
+        
+        return tools;
+    }
+
+    @GetMapping(path = "/tool/search")
+    @ResponseBody
+    public List<Map<String, Object>> searchTools(@RequestParam String query) {
+        List<Map<String, Object>> tools = new ArrayList<>();
+        
+        // Mock de ferramentas filtradas pela query
+        for (int i = 1; i <= 5; i++) {
+            if (("Furadeira " + i).toLowerCase().contains(query.toLowerCase())) {
+                Map<String, Object> tool = new HashMap<>();
+                tool.put("id", i);
+                tool.put("name", "Furadeira " + i);
+                tool.put("description", "Descrição da furadeira " + i);
+                tool.put("price", 25.0 * i);
+                tool.put("imageUrl", "https://example.com/tool" + i + ".jpg");
+                tools.add(tool);
+            }
+        }
+        
+        return tools;
+    }
+
+    @GetMapping(path = "/tool/user/{userId}")
+    public String getUserTools(@PathVariable("userId") String userId, Model model) {
+        model.addAttribute("userId", userId);
+        model.addAttribute("userName", "Usuário " + userId);
+        model.addAttribute("tools", listTools()); // Mock de ferramentas do usuário
+        return "userToolsHome.html";
+    }
+
+    // -=-=-=- FIM CONTROLLERS DO TOOL -=-=-=- //
+
+
+    // CONTROLLERS DO ALUGEL
+    /* Preciso:
+        - Solicitar aluguel de uma ferramenta (como usuário que quer alugar)
+        - Aprovar ou rejeitar solicitação de aluguel (como usuário que possui a ferramenta)
+
+     */
+
+    @PostMapping(path = "/rental/{toolId}")
+    @ResponseBody
+    public String requestRental(
+            @PathVariable("toolId") String toolId,
+            @RequestParam String userId,
+            @RequestParam int days) {
+        System.out.println("Solicitação de aluguel:");
+        System.out.println("ID da ferramenta: " + toolId);
+        System.out.println("ID do usuário: " + userId);
+        System.out.println("Dias solicitados: " + days);
+
+        return "Solicitação de aluguel enviada com sucesso para a ferramenta ID: " + toolId + " por " + days + " dias.";
+    }
+
+
+    @PostMapping(path = "/rental/approve") // Essa rota é usada pelo dono que possui a ferramenta. Ele deve poder aprovar ou rejeitar a solicitação de aluguel. 
+    @ResponseBody
+    public String approveRental(
+            @RequestParam String rentalId,
+            @RequestParam String userId) {
+        System.out.println("Aprovação de aluguel:");
+        System.out.println("ID do aluguel: " + rentalId);
+        System.out.println("ID do usuário: " + userId);
+
+        return "Aluguel aprovado com sucesso para o usuário ID: " + userId + " no aluguel ID: " + rentalId;
+    }
 
 
 }
