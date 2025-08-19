@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Cadastrar Ferramenta</title>
+</head>
+<body>
+    <h1>Cadastrar Nova Ferramenta</h1>
+    <form action="/tool/create" method="post">
+        <label>Nome:</label>
+        <input type="text" name="nome" required><br>
+        <label>Descrição:</label>
+        <input type="text" name="descricao" required><br>
+        <label>Categoria:</label>
+        <input type="text" name="categoria" required><br>
+        <label>Preço:</label>
+        <input type="number" name="preco" step="0.01" required><br>
+        <label>Condição:</label>
+        <input type="text" name="condicao" required><br>
+        <label>Disponibilidade:</label>
+        <input type="text" name="disponibilidade" required><br>
+        <label>Fotos (URL):</label>
+        <input type="text" name="fotos"><br>
+        <button type="submit">Cadastrar</button>
+    </form>
+</body>
+</html>

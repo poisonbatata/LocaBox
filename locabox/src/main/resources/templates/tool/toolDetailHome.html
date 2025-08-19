@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Ferramentas</title>
+</head>
+<body>
+    <h1>Lista de Ferramentas</h1>
+    <a href="/tool/create">Cadastrar Nova Ferramenta</a>
+    <ul>
+        <th:block th:each="tool : ${tools}">
+            <li>
+                <b th:text="${tool.nome}">Nome</b> - 
+                <span th:text="${tool.descricao}">Descrição</span> - 
+                R$ <span th:text="${tool.preco}">Preço</span>
+            </li>
+        </th:block>
+    </ul>
+</body>
+</html>
