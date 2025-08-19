@@ -40,7 +40,7 @@ public class UserViewController {
     @Autowired
     private UserSystemService userSystemService;
 
-    @GetMapping(path = "/user/{id}")
+    @GetMapping(path = "/{id}")
     public String getUserById(@PathVariable("id") Long id, Model model) {
         UserSystem user = userSystemService.getUserSystemById(id);
         if(user != null) {
@@ -52,7 +52,7 @@ public class UserViewController {
         }
     }
 
-    @PostMapping(path = "/user/signup")
+    @PostMapping(path = "/signup")
     public String createUser(@Valid UserSystem user, BindingResult errors, Model model) {
         if (errors.hasErrors()) {
             model.addAttribute("errors", errors.getAllErrors());
@@ -68,7 +68,7 @@ public class UserViewController {
        return "userDetailHome.html";
     }
     
-        @PostMapping(path = "/user/login")
+        @PostMapping(path = "/login")
     @ResponseBody
     public String loginUser(
             @RequestParam String email,
@@ -80,7 +80,7 @@ public class UserViewController {
         return "Usuário logado com sucesso: " + email;
     }
 
-    @PostMapping(path = "/user/logout")
+    @PostMapping(path = "/logout")
     @ResponseBody
     public String logoutUser(
             @RequestParam String userId) {
@@ -90,7 +90,7 @@ public class UserViewController {
         return "Usuário deslogado com sucesso: " + userId;
     }
 
-        @PostMapping(path = "/user/edit")
+        @PostMapping(path = "/edit")
     @ResponseBody
     public String editUser(
             @RequestBody Map<String, Object> userData) {
@@ -100,7 +100,7 @@ public class UserViewController {
         return "Usuário editado com sucesso: " + userData.get("nome");
     }
 
-    @PostMapping(path = "/user/delete")
+    @PostMapping(path = "/delete")
     @ResponseBody
     public String deleteUser(
             @RequestParam String userId) {
@@ -112,7 +112,7 @@ public class UserViewController {
 
     
 
-    @GetMapping(path = "/user/forgot-password")
+    @GetMapping(path = "/forgot-password")
     @ResponseBody
     public String forgotPassword(
             @RequestParam String email) {

@@ -207,8 +207,8 @@ public class ToolViewController {
     public String getUserTools(@PathVariable("userId") String userId, Model model) {
         model.addAttribute("userId", userId);
         model.addAttribute("userName", "Usuário " + userId);
-        model.addAttribute("tools", listTools()); // Mock de ferramentas do usuário
-        return "userToolsHome.html";
+        model.addAttribute("tools", toolService.listarFerramentas()); // Mock de ferramentas do usuário
+        return "tool/toolDetailHome";
     }
 
 
