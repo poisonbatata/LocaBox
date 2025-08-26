@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+  <head th:replace="~{fragments/head :: head(${productTitle})}"></head>
+  <body>
+    <div class="relative flex min-h-screen flex-col bg-[#141414] dark group/design-root overflow-x-hidden"
+         style='font-family: "Space Grotesk", "Noto Sans", sans-serif;'>
+      <div class="layout-container flex h-full grow flex-col">
+        <!-- HEADER (fragment) -->
+        <header th:replace="~{fragments/header :: header(${userImageUrl})}"></header>
+
+        <!-- MAIN CONTENT -->
+        <main class="px-40 flex flex-1 justify-center py-5">
+          <div class="layout-content-container flex flex-col max-w-[960px] flex-1">
+            <!-- Breadcrumb -->
+            <div class="flex flex-wrap gap-2 p-4">
+              <a class="text-[#ababab] text-base font-medium leading-normal" href="#">Ferramentas</a>
+              <span class="text-[#ababab] text-base font-medium leading-normal">/</span>
+              <span class="text-white text-base font-medium leading-normal">Detalhes</span>
+            </div>
+
+            <!-- IMAGENS -->
+            <div class="flex w-full grow bg-[#141414] @container p-4">
+              <div class="w-full gap-1 overflow-hidden bg-[#141414] @[480px]:gap-2 aspect-[3/2] rounded-xl grid grid-cols-[2fr_1fr_1fr]">
+                <div class="w-full bg-center bg-no-repeat bg-cover aspect-auto rounded-none row-span-2"
+                     th:style="'background-image: url(' + ${mainImageUrl} + ');'"></div>
+                <div class="w-full bg-center bg-no-repeat bg-cover aspect-auto rounded-none col-span-2"
+                     th:each="url : ${imageUrls}"
+                     th:style="'background-image: url(' + ${url} + ');'"></div>
+              </div>
+            </div>
+
+            <!-- TITULO E DESCRIÇÃO -->
+            <h1 class="text-white text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 text-left pb-3 pt-5"
+                th:text="${productTitle}">Cordless Drill - 20V Max</h1>
+            <p class="text-white text-base font-normal leading-normal pb-3 pt-1 px-4"
+               th:text="${productDescription}">Descrição do produto</p>
+
+            <!-- DETALHES DO ALUGUEL -->
+            <h3 class="text-white text-lg font-bold leading-tight tracking-[-0.015em] px-4 pb-2 pt-4">Detalhes do Aluguel</h3>
+            <div class="p-4 grid grid-cols-[20%_1fr] gap-x-6">
+              <div class="col-span-2 grid grid-cols-subgrid border-t border-t-[#474747] py-5">
+                <p class="text-[#ababab] text-sm font-normal leading-normal">Preço por dia</p>
+                <p class="text-white text-sm font-normal leading-normal" th:text="'R$ ' + ${pricePerDay}">R$ 25</p>
+              </div>
+              <div class="col-span-2 grid grid-cols-subgrid border-t border-t-[#474747] py-5">
+                <p class="text-[#ababab] text-sm font-normal leading-normal">Mínimo de dias</p>
+                <p class="text-white text-sm font-normal leading-normal" th:text="${minDays} + ' dia(s)'">1 dia</p>
+              </div>
+              <div class="col-span-2 grid grid-cols-subgrid border-t border-t-[#474747] py-5">
+                <p class="text-[#ababab] text-sm font-normal leading-normal">Caução</p>
+                <p class="text-white text-sm font-normal leading-normal" th:text="'R$ ' + ${depositValue}">R$ 50</p>
+              </div>
+            </div>
+
+            <!-- DISPONIBILIDADE -->
+            <h3 class="text-white text-lg font-bold leading-tight tracking-[-0.015em] px-4 pb-2 pt-4">Disponibilidade</h3>
+            <div class="flex flex-wrap items-center justify-center gap-6 p-4">
+              <div class="flex min-w-72 max-w-[336px] flex-1 flex-col gap-0.5">
+                <div class="flex items-center p-1 justify-between">
+                  <button>
+                    <div class="text-white flex size-10 items-center justify-center">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="18px" height="18px" fill="currentColor" viewBox="0 0 256 256">
+                        <path d="M165.66,202.34a8,8,0,0,1-11.32,11.32l-80-80a8,8,0,0,1,0-11.32l80-80a8,8,0,0,1,11.32,11.32L91.31,128Z"></path>
+                      </svg>
+                    </div>
+                  </button>
+                  <p class="text-white text-base font-bold leading-tight flex-1 text-center"
+                     th:text="${currentMonth}">Julho 2024</p>
+                  <button>
+                    <div class="text-white flex size-10 items-center justify-center">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="18px" height="18px" fill="currentColor" viewBox="0 0 256 256">
+                        <path d="M181.66,133.66l-80,80a8,8,0,0,1-11.32-11.32L164.69,128,90.34,53.66a8,8,0,0,1,11.32-11.32l80,80A8,8,0,0,1,181.66,133.66Z"></path>
+                      </svg>
+                    </div>
+                  </button>
+                </div>
+                <div class="grid grid-cols-7">
+                  <p class="text-white text-[13px] font-bold leading-normal tracking-[0.015em] flex h-12 w-full items-center justify-center pb-0.5"
+                     th:each="dia : ${weekdays}"
+                     th:text="${dia}">S</p>
+                  <!-- Dias do mês -->
+                  <button class="h-12 w-full text-white text-sm font-medium leading-normal"
+                          th:each="diaObj : ${calendarDays}"
+                          th:classappend="
+                              ${diaObj.selected} ? 'bg-black rounded-full' :
+                              (${diaObj.unavailable} ? 'bg-[#303030] rounded-full text-[#474747] pointer-events-none' : 'bg-[#303030] rounded-full')
+                          ">
+                    <div class="flex size-full items-center justify-center" th:text="${diaObj.day}">1</div>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- VENDEDOR -->
+            <h3 class="text-white text-lg font-bold leading-tight tracking-[-0.015em] px-4 pb-2 pt-4">Vendedor</h3>
+            <div class="flex items-center gap-4 bg-[#141414] px-4 min-h-[72px] py-2">
+              <div th:with="sellerImg=${sellerImageUrl} ?: @{/images/avatarGenerico.png}" class="bg-center bg-no-repeat aspect-square bg-cover rounded-full h-14 w-fit" th:style="'background-image: url(' + ${sellerImg} + ');'"></div>
+              <div class="flex flex-col justify-center">
+                <p class="text-white text-base font-medium leading-normal" th:text="${sellerName}">Nome</p>
+                <p class="text-[#ababab] text-sm font-normal leading-normal"
+                   th:text="${sellerRating} + ' (' + ${sellerReviews} + ' avaliações)'">4.8 (125 avaliações)</p>
+              </div>
+            </div>
+            <div class="flex justify-stretch">
+              <div class="flex flex-1 gap-3 flex-wrap px-4 py-3 justify-start">
+                <button class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 px-4 bg-black text-white text-sm font-bold leading-normal tracking-[0.015em]">
+                  <span class="truncate">Alugar</span>
+                </button>
+                <button class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 px-4 bg-[#303030] text-white text-sm font-bold leading-normal tracking-[0.015em]">
+                  <span class="truncate">Falar com vendedor</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- REVIEWS -->
+            <h3 class="text-white text-lg font-bold leading-tight tracking-[-0.015em] px-4 pb-2 pt-4">Avaliações</h3>
+            <div class="flex flex-wrap gap-x-8 gap-y-6 p-4">
+              <!-- Resumo -->
+              <div class="flex flex-col gap-2">
+                <p class="text-white text-4xl font-black leading-tight tracking-[-0.033em]" th:text="${avgReview}">4.8</p>
+                <div class="flex gap-0.5">
+                  <!-- Estrelas preenchidas/vazias -->
+                  <span th:each="star : ${#numbers.sequence(1,5)}">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18px" height="18px" fill="currentColor"
+                         th:if="${avgReview >= star}"
+                         viewBox="0 0 256 256"><path
+                            d="M234.5,114.38l-45.1,39.36,13.51,58.6a16,16,0,0,1-23.84,17.34l-51.11-31-51,31a16,16,0,0,1-23.84-17.34L66.61,153.8,21.5,114.38a16,16,0,0,1,9.11-28.06l59.46-5.15,23.21-55.36a15.95,15.95,0,0,1,29.44,0h0L166,81.17l59.44,5.15a16,16,0,0,1,9.11,28.06Z"></path></svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18px" height="18px" fill="currentColor"
+                         th:if="${avgReview < star}"
+                         viewBox="0 0 256 256"><path
+                            d="M239.2,97.29a16,16,0,0,0-13.81-11L166,81.17,142.72,25.81h0a15.95,15.95,0,0,0-29.44,0L90.07,81.17,30.61,86.32a16,16,0,0,0-9.11,28.06L66.61,153.8,53.09,212.34a16,16,0,0,0,23.84,17.34l51-31,51.11,31a16,16,0,0,0,23.84-17.34l-13.51-58.6,45.1-39.36A16,16,0,0,0,239.2,97.29Zm-15.22,5-45.1,39.36a16,16,0,0,0-5.08,15.71L187.35,216v0l-51.07-31a15.9,15.9,0,0,0-16.54,0l-51,31h0L82.2,157.4a16,16,0,0,0-5.08-15.71L32,102.35a.37.37,0,0,1,0-.09l59.44-5.14a16,16,0,0,0,13.35-9.75L128,32.08l23.2,55.29a16,16,0,0,0,13.35,9.75L224,102.26S224,102.32,224,102.33Z"></path></svg>
+                  </span>
+                </div>
+                <p class="text-white text-base font-normal leading-normal"
+                   th:text="${totalReviews} + ' avaliações'">125 avaliações</p>
+              </div>
+
+              <!-- Estatísticas -->
+              <div class="grid min-w-[200px] max-w-[400px] flex-1 grid-cols-[20px_1fr_40px] items-center gap-y-3">
+                <div th:each="stat : ${reviewStats}">
+                  <p class="text-white text-sm font-normal leading-normal" th:text="${stat.score}">5</p>
+                  <div class="flex h-2 flex-1 overflow-hidden rounded-full bg-[#474747]">
+                    <div class="rounded-full bg-white" th:style="'width:' + ${stat.percent} + '%;'"></div>
+                  </div>
+                  <p class="text-[#ababab] text-sm font-normal leading-normal text-right" th:text="${stat.percent} + '%'">70%</p>
+                </div>
+              </div>
+
+              <!-- Lista de reviews -->
+              <div class="flex flex-col gap-5 flex-1 min-w-[320px] max-w-[480px]">
+                <div th:each="review : ${reviews}" class="flex flex-col rounded-xl bg-[#1a1a1a] p-5 gap-2 border border-[#252525]">
+                  <div class="flex items-center gap-3 mb-2">
+                    <div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10"
+                         th:style="'background-image: url(' + ${review.avatarUrl} + ');'"></div>
+                    <div>
+                      <p class="text-white text-sm font-medium" th:text="${review.author}">Nome</p>
+                      <p class="text-[#ababab] text-xs font-normal" th:text="${review.date}">22/05/2024</p>
+                    </div>
+                    <div class="flex gap-0.5 ml-2">
+                      <span th:each="star : ${#numbers.sequence(1,5)}">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16px" height="16px" fill="currentColor"
+                             th:if="${review.stars >= star}"
+                             viewBox="0 0 256 256"><path
+                                d="M234.5,114.38l-45.1,39.36,13.51,58.6a16,16,0,0,1-23.84,17.34l-51.11-31-51,31a16,16,0,0,1-23.84-17.34L66.61,153.8,21.5,114.38a16,16,0,0,1,9.11-28.06l59.46-5.15,23.21-55.36a15.95,15.95,0,0,1,29.44,0h0L166,81.17l59.44,5.15a16,16,0,0,1,9.11,28.06Z"></path></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16px" height="16px" fill="currentColor"
+                             th:if="${review.stars < star}"
+                             viewBox="0 0 256 256"><path
+                                d="M239.2,97.29a16,16,0,0,0-13.81-11L166,81.17,142.72,25.81h0a15.95,15.95,0,0,0-29.44,0L90.07,81.17,30.61,86.32a16,16,0,0,0-9.11,28.06L66.61,153.8,53.09,212.34a16,16,0,0,0,23.84,17.34l51-31,51.11,31a16,16,0,0,0,23.84-17.34l-13.51-58.6,45.1-39.36A16,16,0,0,0,239.2,97.29Zm-15.22,5-45.1,39.36a16,16,0,0,0-5.08,15.71L187.35,216v0l-51.07-31a15.9,15.9,0,0,0-16.54,0l-51,31h0L82.2,157.4a16,16,0,0,0-5.08-15.71L32,102.35a.37.37,0,0,1,0-.09l59.44-5.14a16,16,0,0,0,13.35-9.75L128,32.08l23.2,55.29a16,16,0,0,0,13.35,9.75L224,102.26S224,102.32,224,102.33Z"></path></svg>
+                      </span>
+                    </div>
+                  </div>
+                  <p class="text-white text-base font-normal" th:text="${review.comment}"></p>
+                  <div class="flex gap-2 mt-2">
+                    <span class="flex items-center gap-1 text-xs text-[#ababab]">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="14px" height="14px" fill="currentColor" viewBox="0 0 24 24"><path d="M20.947,10.305c-1.248,2.687-4.017,6.378-8.63,10.925c-0.282,0.276-0.73,0.276-1.012,0c-4.613-4.547-7.382-8.238-8.63-10.925c-0.661-1.425-0.564-3.098,0.263-4.452c0.833-1.36,2.297-2.155,3.859-2.155c2.027,0,3.083,1.174,3.761,2.156c0.673-0.978,1.729-2.156,3.761-2.156c1.563,0,3.026,0.795,3.859,2.155c0.827,1.354,0.924,3.027,0.263,4.452z"></path></svg>
+                      <span th:text="${review.likes}">10</span>
+                    </span>
+                    <span class="flex items-center gap-1 text-xs text-[#ababab]">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="14px" height="14px" fill="currentColor" viewBox="0 0 24 24"><path d="M12.512,2.162c-0.282-0.276-0.73-0.276-1.012,0c-4.613,4.547-7.382,8.238-8.63,10.925c-0.661,1.425-0.564,3.098,0.263,4.452c0.833,1.36,2.297,2.155,3.859,2.155c2.027,0,3.083-1.174,3.761-2.156c0.673,0.978,1.729,2.156,3.761,2.156c1.563,0,3.026,0.795,3.859,2.155c0.827,1.354,0.924,3.027,0.263,4.452C19.894,10.4,17.125,6.709,12.512,2.162z"></path></svg>
+                      <span th:text="${review.dislikes}">2</span>
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <!-- /REVIEWS -->
+            </div>
+          </div>
+        </main>
+
+        <!-- FOOTER (fragment) -->
+        <footer th:replace="~{fragments/footer :: footer}"></footer>
+      </div>
+    </div>
+  </body>
+</html>

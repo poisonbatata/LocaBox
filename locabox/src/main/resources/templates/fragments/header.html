@@ -1,0 +1,46 @@
+<header th:fragment="header(userImageUrl)" class="flex items-center justify-between border-b border-solid border-b-[#303030] px-10 py-3">
+      <div class="flex items-center gap-8">
+        <div class="flex items-center gap-4 text-white">
+          <div class="size-4">
+            <!-- Logo SVG -->
+            <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <g clip-path="url(#clip0_6_330)">
+                <path fill-rule="evenodd" clip-rule="evenodd"
+                      d="M24 0.757355L47.2426 24L24 47.2426L0.757355 24L24 0.757355ZM21 35.7574V12.2426L9.24264 24L21 35.7574Z"
+                      fill="currentColor"></path>
+              </g>
+              <defs>
+                <clipPath id="clip0_6_330">
+                  <rect width="48" height="48" fill="white"></rect>
+                </clipPath>
+              </defs>
+            </svg>
+          </div>
+          <h2 class="text-white text-lg font-bold leading-tight tracking-[-0.015em]">LocaBox</h2>
+        </div>
+        <nav class="flex items-center gap-9">
+          <a class="text-white text-sm font-medium leading-normal" href="#">Categorias</a>
+          <a class="text-white text-sm font-medium leading-normal" href="#">Como funciona</a>
+          <a class="text-white text-sm font-medium leading-normal" href="#">Ajuda</a>
+        </nav>
+      </div>
+      <div class="flex flex-1 justify-end gap-8">
+        <!-- Busca (apenas visual) -->
+        <label class="flex flex-col min-w-40 !h-10 max-w-64">
+          <div class="flex w-full flex-1 items-stretch rounded-xl h-full">
+            <div class="text-[#ababab] flex border-none bg-[#303030] items-center justify-center pl-4 rounded-l-xl border-r-0">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
+                <path d="M229.66,218.34l-50.07-50.06a88.11,88.11,0,1,0-11.31,11.31l50.06,50.07a8,8,0,0,0,11.32-11.32ZM40,112a72,72,0,1,1,72,72A72.08,72.08,0,0,1,40,112Z"></path>
+              </svg>
+            </div>
+            <input placeholder="Buscar"
+                   class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-xl text-white focus:outline-0 focus:ring-0 border-none bg-[#303030] focus:border-none h-full placeholder:text-[#ababab] px-4 rounded-l-none border-l-0 pl-2 text-base font-normal leading-normal" />
+          </div>
+        </label>
+        <button class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 px-4 bg-black text-white text-sm font-bold leading-normal tracking-[0.015em]">
+          <span class="truncate">Anunciar</span>
+        </button>
+        <div th:with="avatar=${userImageUrl} ?: @{/images/avatarGenerico.png}" class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10" th:style="'background-image: url(' + ${avatar} + ');'"></div>
+      </div>
+    </header>
+  </body>
