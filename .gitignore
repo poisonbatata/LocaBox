@@ -65,6 +65,7 @@ build/
 *.mv.db
 *.h2.db
 *.trace.db
+*.db
 
 ### Env files ###
 .env
