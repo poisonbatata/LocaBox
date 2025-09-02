@@ -39,68 +39,77 @@ public class ToolViewController {
     private ToolService toolService;
 
     @GetMapping(path = "/{id}")
-public String getToolById(@PathVariable("id") String id, Model model) {
-    // 1) Busca a ferramenta
-    Tool tool = toolService.findById(id);
-    if (tool == null) {
-        return "redirect:/tool/list";
+    public String getToolById(@PathVariable("id") String id, Model model) {
+        // 1) Busca a ferramenta
+        Tool tool = toolService.findById(id);
+        if (tool == null) {
+            return "redirect:/tool/list";
+        }
+
+        // 2) Mapeia os campos do domínio -> variáveis do template
+        // Título e descrição
+        model.addAttribute("productTitle", tool.getNome());
+        model.addAttribute("productDescription", tool.getDescricao());
+
+        // Preço (por dia)
+        model.addAttribute("pricePerDay", tool.getPreco());
+
+        // Mínimo de dias / caução (ajuste conforme seu domínio; aqui vão defaults)
+        model.addAttribute("minDays", 1);
+        model.addAttribute("depositValue", 0);
+
+        // Imagens: pega da String "fotos" (separadas por vírgula, ponto-e-vírgula ou espaço)
+        List<String> imgs = parseFotos(tool.getFotos());
+        String main = imgs.isEmpty() ? "/images/placeholder.png" : imgs.get(0);
+        List<String> thumbs = imgs.size() > 1 ? imgs.subList(1, imgs.size()) : java.util.Collections.emptyList();
+        model.addAttribute("mainImageUrl", main);
+        model.addAttribute("imageUrls", thumbs);
+
+        // Cabeçalho (avatar do usuário logado, se tiver; por enquanto um placeholder)
+        model.addAttribute("userImageUrl", "/images/avatar.png");
+
+        // Disponibilidade / calendário (gera um grid do mês corrente)
+        java.time.YearMonth ym = java.time.YearMonth.now();
+        java.util.Locale br = new java.util.Locale("pt","BR");
+        model.addAttribute("currentMonth", ym.format(java.time.format.DateTimeFormatter.ofPattern("MMMM yyyy", br)));
+        model.addAttribute("weekdays", java.util.List.of("D","S","T","Q","Q","S","S"));
+        model.addAttribute("calendarDays", buildCalendar(ym, tool.getDisponibilidade()));
+
+        // Vendedor (ajuste se tiver relacionamento proprietário->ferramenta)
+        model.addAttribute("sellerImageUrl", "/images/seller.png");
+        model.addAttribute("sellerName", "Proprietário");
+        model.addAttribute("sellerRating", 4.8);
+        model.addAttribute("sellerReviews", 0);
+
+        // Avaliações (se ainda não implementou, mantemos vazio/zero)
+        model.addAttribute("avgReview", 0);
+        model.addAttribute("totalReviews", 0);
+        model.addAttribute("reviewStats", java.util.Collections.emptyList());
+        model.addAttribute("reviews", java.util.Collections.emptyList());
+
+        // 3) Devolve o novo template segmentado
+        return "tool/detail";
     }
-
-    // 2) Mapeia os campos do domínio -> variáveis do template
-    // Título e descrição
-    model.addAttribute("productTitle", tool.getNome());
-    model.addAttribute("productDescription", tool.getDescricao());
-
-    // Preço (por dia)
-    model.addAttribute("pricePerDay", tool.getPreco());
-
-    // Mínimo de dias / caução (ajuste conforme seu domínio; aqui vão defaults)
-    model.addAttribute("minDays", 1);
-    model.addAttribute("depositValue", 0);
-
-    // Imagens: pega da String "fotos" (separadas por vírgula, ponto-e-vírgula ou espaço)
-    List<String> imgs = parseFotos(tool.getFotos());
-    String main = imgs.isEmpty() ? "/images/placeholder.png" : imgs.get(0);
-    List<String> thumbs = imgs.size() > 1 ? imgs.subList(1, imgs.size()) : java.util.Collections.emptyList();
-    model.addAttribute("mainImageUrl", main);
-    model.addAttribute("imageUrls", thumbs);
-
-    // Cabeçalho (avatar do usuário logado, se tiver; por enquanto um placeholder)
-    model.addAttribute("userImageUrl", "/images/avatar.png");
-
-    // Disponibilidade / calendário (gera um grid do mês corrente)
-    java.time.YearMonth ym = java.time.YearMonth.now();
-    java.util.Locale br = new java.util.Locale("pt","BR");
-    model.addAttribute("currentMonth", ym.format(java.time.format.DateTimeFormatter.ofPattern("MMMM yyyy", br)));
-    model.addAttribute("weekdays", java.util.List.of("D","S","T","Q","Q","S","S"));
-    model.addAttribute("calendarDays", buildCalendar(ym, tool.getDisponibilidade()));
-
-    // Vendedor (ajuste se tiver relacionamento proprietário->ferramenta)
-    model.addAttribute("sellerImageUrl", "/images/seller.png");
-    model.addAttribute("sellerName", "Proprietário");
-    model.addAttribute("sellerRating", 4.8);
-    model.addAttribute("sellerReviews", 0);
-
-    // Avaliações (se ainda não implementou, mantemos vazio/zero)
-    model.addAttribute("avgReview", 0);
-    model.addAttribute("totalReviews", 0);
-    model.addAttribute("reviewStats", java.util.Collections.emptyList());
-    model.addAttribute("reviews", java.util.Collections.emptyList());
-
-    // 3) Devolve o novo template segmentado
-    return "tool/detail";
-}
 
     // Exibe formulário de cadastro
     @GetMapping("/create")
     public String showCreateForm(Model model) {
-        model.addAttribute("tool", new Tool());
+        model.addAttribute("toolDTO", new br.edu.iff.ccc.locabox.dto.ToolDTO());
         return "tool/createTool";
     }
 
     // Salva nova ferramenta
     @PostMapping("/create")
-    public String createTool(@ModelAttribute Tool tool) {
+    public String createTool(@ModelAttribute("toolDTO") br.edu.iff.ccc.locabox.dto.ToolDTO toolDTO) {
+        // Aqui você pode converter o DTO para entidade Tool antes de salvar
+        Tool tool = new Tool();
+        tool.setNome(toolDTO.getNome());
+        tool.setDescricao(toolDTO.getDescricao());
+        tool.setCategoria(toolDTO.getCategoria());
+        tool.setPreco(toolDTO.getPreco());
+        tool.setCondicao(toolDTO.getCondicao());
+        tool.setDisponibilidade(toolDTO.getDisponibilidade());
+        tool.setFotos(toolDTO.getFotos());
         toolService.cadastrarFerramenta(tool);
         return "redirect:/tool/list";
     }
