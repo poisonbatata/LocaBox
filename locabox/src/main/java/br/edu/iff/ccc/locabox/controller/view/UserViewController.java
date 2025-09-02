@@ -22,6 +22,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import br.edu.iff.ccc.locabox.dto.UserProfileDTO;
+import br.edu.iff.ccc.locabox.mapper.UserProfileMapper;
 
 
 @Controller
@@ -44,14 +46,26 @@ public class UserViewController {
 
     @GetMapping(path = "/{id}")
     public String getUserById(@PathVariable("id") Long id, Model model) {
-        UserSystem user = userSystemService.getUserSystemById(id);
-        if(user != null) {
-            model.addAttribute("user", user);
-            return "userDetailHome.html";
-        } else {
+        var user = userSystemService.getUserSystemById(id); // já existe no seu service :contentReference[oaicite:4]{index=4}
+        if (user == null) {
             model.addAttribute("error", "User not found");
             return "errorView.html";
         }
+
+        UserProfileDTO profile = UserProfileMapper.toDTO(user);
+        model.addAttribute("profile", profile);
+
+        // distribuição fake (5→1). Se tiver DTO próprio, pode trocar.
+        record Stat(int score, int percent) {}
+        model.addAttribute("distribution", java.util.List.of(
+            new Stat(5, 40), new Stat(4, 30), new Stat(3, 15), new Stat(2, 10), new Stat(1, 5)
+        ));
+
+        // listings do usuário — se ainda não tem vínculo, envia vazio (template trata)
+        model.addAttribute("listings", java.util.List.of());
+
+        model.addAttribute("pageTitle", "LocaBox — Profile");
+        return "user/profile";
     }
 
     @GetMapping("/signup")

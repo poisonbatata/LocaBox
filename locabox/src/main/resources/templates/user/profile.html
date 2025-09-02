@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+  <!-- Ajuste a ordem dos parâmetros conforme a assinatura real do seu layout -->
+  <th:block th:replace="~{layout :: layout(${pageTitle} ?: 'LocaBox — Profile', ${userImageUrl}, ~{::content})}">
+
+    <th:block th:fragment="content">
+      <div class="px-40 flex flex-1 justify-center py-5">
+        <div class="layout-content-container flex flex-col max-w-[960px] flex-1">
+
+          <!-- Header do perfil -->
+          <div class="flex p-4 @container">
+            <div class="flex w-full flex-col gap-4 @[520px]:flex-row @[520px]:justify-between @[520px]:items-center">
+              <div class="flex gap-4">
+                <div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full min-h-32 w-32"
+                     th:style="|background-image: url('${profile.avatarUrl != null ? profile.avatarUrl : '/images/avatar.png'}');|"></div>
+                <div class="flex flex-col justify-center">
+                  <p class="text-white text-[22px] font-bold leading-tight tracking-[-0.015em]">
+                    <span th:text="${profile.name}">User Name</span>
+                    <span> ★ </span>
+                    <span th:text="${#numbers.formatDecimal(profile.avgRating,1,'POINT',1,'NONE')}">4.5</span>
+                  </p>
+                  <p class="text-[#ababab] text-base font-normal leading-normal">
+                    Joined in <span th:text="${profile.joinedYear}">2021</span>
+                  </p>
+                </div>
+              </div>
+
+              <!-- Botão editar só para o dono -->
+              <a th:if="${currentUser != null and currentUser.id == profile.id}"
+                 th:href="@{/user/{id}/edit(id=${profile.id})}"
+                 class="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 px-4 bg-[#303030] text-white text-sm font-bold leading-normal tracking-[0.015em] w-full max-w-[480px] @[480px]:w-auto">
+                <span class="truncate">Edit profile</span>
+              </a>
+            </div>
+          </div>
+
+          <div class="flex px-4 py-3 justify-start">
+            <a th:href="@{/user/{id}/report(id=${profile.id})}"
+               class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 px-4 bg-[#303030] text-white text-sm font-bold leading-normal tracking-[0.015em]">
+              <span class="truncate">Report User</span>
+            </a>
+          </div>
+
+          <!-- About -->
+          <h2 class="text-white text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5">About</h2>
+          <div class="p-4 grid grid-cols-[20%_1fr] gap-x-6">
+            <div class="col-span-2 grid grid-cols-subgrid border-t border-t-[#474747] py-5">
+              <p class="text-[#ababab] text-sm font-normal leading-normal">Email</p>
+              <p class="text-white text-sm font-normal leading-normal" th:text="${profile.email}">email@exemplo.com</p>
+            </div>
+            <div class="col-span-2 grid grid-cols-subgrid border-t border-t-[#474747] py-5">
+              <p class="text-[#ababab] text-sm font-normal leading-normal">Phone</p>
+              <p class="text-white text-sm font-normal leading-normal" th:text="${profile.phone}">(00) 00000-0000</p>
+            </div>
+            <div class="col-span-2 grid grid-cols-subgrid border-t border-t-[#474747] py-5">
+              <p class="text-[#ababab] text-sm font-normal leading-normal">Address</p>
+              <p class="text-white text-sm font-normal leading-normal" th:text="${profile.address}">Rua X, 123</p>
+            </div>
+            <div class="col-span-2 grid grid-cols-subgrid border-t border-t-[#474747] py-5">
+              <p class="text-[#ababab] text-sm font-normal leading-normal">Description</p>
+              <p class="text-white text-sm font-normal leading-normal" th:text="${profile.description}">
+                Sobre mim...
+              </p>
+            </div>
+          </div>
+
+          <!-- Avaliações -->
+          <div class="flex flex-wrap gap-x-8 gap-y-6 p-4">
+            <div class="flex flex-col gap-2">
+              <p class="text-white text-4xl font-black leading-tight tracking-[-0.033em]"
+                 th:text="${#numbers.formatDecimal(profile.avgRating,1,'POINT',1,'NONE')}">4.5</p>
+
+              <!-- Estrelas (preenche com base em avgRating arredondado pra baixo) -->
+              <div class="flex gap-0.5" th:with="full=${T(java.lang.Math).floor(profile.avgRating)}">
+                <span th:each="i : ${#numbers.sequence(1,5)}">
+                  <svg th:if="${i <= full}" xmlns="http://www.w3.org/2000/svg" width="18px" height="18px" fill="currentColor" viewBox="0 0 256 256" class="text-white">
+                    <path d="M234.5,114.38l-45.1,39.36,13.51,58.6a16,16,0,0,1-23.84,17.34l-51.11-31-51,31a16,16,0,0,1-23.84-17.34L66.61,153.8,21.5,114.38a16,16,0,0,1,9.11-28.06l59.46-5.15,23.21-55.36a15.95,15.95,0,0,1,29.44,0h0L166,81.17l59.44,5.15a16,16,0,0,1,9.11,28.06Z"></path>
+                  </svg>
+                  <svg th:if="${i > full}" xmlns="http://www.w3.org/2000/svg" width="18px" height="18px" fill="currentColor" viewBox="0 0 256 256" class="text-white">
+                    <path d="M239.2,97.29a16,16,0,0,0-13.81-11L166,81.17,142.72,25.81h0a15.95,15.95,0,0,0-29.44,0L90.07,81.17,30.61,86.32a16,16,0,0,0-9.11,28.06L66.61,153.8,53.09,212.34a16,16,0,0,0,23.84,17.34l51-31,51.11,31a16,16,0,0,0,23.84-17.34l-13.51-58.6,45.1-39.36A16,16,0,0,0,239.2,97.29Z"></path>
+                  </svg>
+                </span>
+              </div>
+
+              <p class="text-white text-base font-normal leading-normal">
+                <span th:text="${profile.totalReviews}">0</span> reviews
+              </p>
+            </div>
+
+            <!-- Distribuição por estrelas -->
+            <div class="grid min-w-[200px] max-w-[400px] flex-1 grid-cols-[20px_1fr_40px] items-center gap-y-3">
+              <div th:each="stat : ${distribution}">
+                <p class="text-white text-sm font-normal leading-normal" th:text="${stat.score}">5</p>
+                <div class="flex h-2 flex-1 overflow-hidden rounded-full bg-[#474747]">
+                  <div class="rounded-full bg-white" th:style="|width: ${stat.percent}%;|"></div>
+                </div>
+                <p class="text-[#ababab] text-sm font-normal leading-normal text-right" th:text="|${stat.percent}%|">0%</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Listings -->
+          <h2 class="text-white text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5">Listings</h2>
+          <div class="grid grid-cols-[repeat(auto-fit,minmax(158px,1fr))] gap-3 p-4">
+            <div th:if="${#lists.isEmpty(listings)}" class="col-span-full text-center py-8">
+              <p class="text-[#ababab]">Nenhuma ferramenta publicada.</p>
+            </div>
+
+            <div th:each="t : ${listings}" class="flex flex-col gap-3 pb-3">
+              <a th:href="@{/tool/{id}(id=${t.id})}">
+                <div class="w-full bg-center bg-no-repeat aspect-square bg-cover rounded-xl"
+                     th:style="|background-image: url('${t.mainImageUrl}');|"></div>
+              </a>
+              <p class="text-white text-base font-medium leading-normal" th:text="${t.title}">Tool</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </th:block>
+
+  </th:block>
+</html>
