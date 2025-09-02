@@ -35,4 +35,8 @@ public class ToolService {
                 .findFirst()
                 .orElse(null);
     }
+
+    public List<Tool> findAll() {
+        return new ArrayList<>(tools);
+    }
 }

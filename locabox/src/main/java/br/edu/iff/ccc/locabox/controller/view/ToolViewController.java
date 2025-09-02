@@ -134,49 +134,89 @@ public class ToolViewController {
         return "Produto deletado com sucesso: " + toolId;
     }
 
-    @GetMapping(path = "/list")
-       /* @ResponseBody
-    public List<Map<String, Object>> listTools() {
-        List<Map<String, Object>> tools = new ArrayList<>();
-        
-        // Mock de ferramentas
-        for (int i = 1; i <= 5; i++) {
-            Map<String, Object> tool = new HashMap<>();
-            tool.put("id", i);
-            tool.put("name", "Furadeira " + i);
-            tool.put("description", "Descrição da furadeira " + i);
-            tool.put("price", 25.0 * i);
-            tool.put("imageUrl", "https://example.com/tool" + i + ".jpg");
-            tools.add(tool);
-        }
-        
-        return tools;
-    }*/
-    public String listTools(Model model) {
-        model.addAttribute("tools", toolService.listarFerramentas());
-        return "tool/toolDetailHome";
+    //@GetMapping(path = "/list")
+    //   /* @ResponseBody
+    //public List<Map<String, Object>> listTools() {
+    //    List<Map<String, Object>> tools = new ArrayList<>();
+    //    
+    //    // Mock de ferramentas
+    //    for (int i = 1; i <= 5; i++) {
+    //        Map<String, Object> tool = new HashMap<>();
+    //        tool.put("id", i);
+    //        tool.put("name", "Furadeira " + i);
+    //        tool.put("description", "Descrição da furadeira " + i);
+    //        tool.put("price", 25.0 * i);
+    //        tool.put("imageUrl", "https://example.com/tool" + i + ".jpg");
+    //        tools.add(tool);
+    //    }
+    //    
+    //    return tools;
+    //}*/
+    //public String listTools(Model model) {
+    //    model.addAttribute("tools", toolService.listarFerramentas());
+    //    return "tool/toolDetailHome";
+    //}
+
+    //@GetMapping(path = "/search")
+    //@ResponseBody
+    //public List<Map<String, Object>> searchTools(@RequestParam String query) {
+    //    List<Map<String, Object>> tools = new ArrayList<>();
+    //    
+    //    // Mock de ferramentas filtradas pela query
+    //    for (int i = 1; i <= 5; i++) {
+    //        if (("Furadeira " + i).toLowerCase().contains(query.toLowerCase())) {
+    //            Map<String, Object> tool = new HashMap<>();
+    //            tool.put("id", i);
+    //            tool.put("name", "Furadeira " + i);
+    //            tool.put("description", "Descrição da furadeira " + i);
+    //            tool.put("price", 25.0 * i);
+    //            tool.put("imageUrl", "/images/furadeira" + i + ".jpg");
+    //            tools.add(tool);
+    //        }
+    //    }
+    //    
+    //    return tools;
+    //}
+
+    @GetMapping("/search")
+    public String search(
+            @RequestParam(value = "q", required = false) String q,
+            @RequestParam(value = "page", defaultValue = "1") int page,
+            Model model) {
+
+        int pageSize = 12;
+
+        // 1) Buscar/filtrar (veja item 5 para o service)
+        List<Tool> all = toolService.findAll(); // novo método simples
+        List<Tool> filtered = (q == null || q.isBlank())
+                ? all
+                : all.stream()
+                    .filter(t -> t.getNome() != null && t.getNome().toLowerCase().contains(q.toLowerCase()))
+                    .toList();
+
+        // 2) Paginar (simplificado)
+        int total = filtered.size();
+        int totalPages = Math.max(1, (int) Math.ceil(total / (double) pageSize));
+        int from = Math.max(0, (page - 1) * pageSize);
+        int to = Math.min(total, from + pageSize);
+        List<Tool> pageItems = from < to ? filtered.subList(from, to) : List.of();
+
+        // 3) Mapear para o DTO de card
+        List<br.edu.iff.ccc.locabox.dto.ToolCardDTO> cards = pageItems.stream()
+                .map(br.edu.iff.ccc.locabox.mapper.ToolCardMapper::toCard)
+                .toList();
+
+        // 4) Model
+        model.addAttribute("pageTitle", "LocaBox — Buscar");
+        model.addAttribute("q", q);
+        model.addAttribute("filters", List.of("Category", "Price", "Location", "Rating"));
+        model.addAttribute("tools", cards);
+        model.addAttribute("page", page);
+        model.addAttribute("totalPages", totalPages);
+
+        return "search";
     }
 
-    @GetMapping(path = "/search")
-    @ResponseBody
-    public List<Map<String, Object>> searchTools(@RequestParam String query) {
-        List<Map<String, Object>> tools = new ArrayList<>();
-        
-        // Mock de ferramentas filtradas pela query
-        for (int i = 1; i <= 5; i++) {
-            if (("Furadeira " + i).toLowerCase().contains(query.toLowerCase())) {
-                Map<String, Object> tool = new HashMap<>();
-                tool.put("id", i);
-                tool.put("name", "Furadeira " + i);
-                tool.put("description", "Descrição da furadeira " + i);
-                tool.put("price", 25.0 * i);
-                tool.put("imageUrl", "/images/furadeira" + i + ".jpg");
-                tools.add(tool);
-            }
-        }
-        
-        return tools;
-    }
 
     @GetMapping(path = "/user/{userId}")
     public String getUserTools(@PathVariable("userId") String userId, Model model) {
