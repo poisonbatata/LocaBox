@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+  <!-- Ajuste a ordem dos parâmetros para a assinatura real do seu layout -->
+  <th:block th:replace="~{layout :: layout(${pageTitle} ?: 'LocaBox — Criar conta', ${userImageUrl}, ~{::content})}">
+
+    <th:block th:fragment="content">
+      <div class="px-40 flex flex-1 justify-center py-5">
+        <div class="layout-content-container flex flex-col w-[512px] max-w-[512px] py-5 max-w-[960px] flex-1">
+          <h2 class="text-white tracking-light text-[28px] font-bold leading-tight px-4 text-center pb-3 pt-5">
+            Create your account
+          </h2>
+
+          <!-- Mensagens de feedback -->
+          <div class="px-4" th:if="${error}">
+            <p class="text-red-400 text-sm" th:text="${error}">Erro</p>
+          </div>
+          <div class="px-4" th:if="${success}">
+            <p class="text-green-400 text-sm" th:text="${success}">Conta criada</p>
+          </div>
+
+          <!-- Form -->
+          <form th:action="@{/user/signup}" method="post" class="contents">
+            <!-- Se usar CSRF algum dia, habilite:
+            <input type="hidden" th:if="${_csrf!=null}" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+            -->
+
+            <div class="flex max-w-[480px] flex-wrap items-end gap-4 px-4 py-3">
+              <label class="flex flex-col min-w-40 flex-1">
+                <p class="text-white text-base font-medium leading-normal pb-2">Full name</p>
+                <input
+                  name="name"
+                  th:value="${name}"
+                  placeholder="Enter your full name"
+                  class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-xl text-white focus:outline-0 focus:ring-0 border border-[#474747] bg-[#212121] focus:border-[#474747] h-14 placeholder:text-[#ababab] p-[15px] text-base font-normal leading-normal"/>
+              </label>
+            </div>
+
+            <div class="flex max-w-[480px] flex-wrap items-end gap-4 px-4 py-3">
+              <label class="flex flex-col min-w-40 flex-1">
+                <p class="text-white text-base font-medium leading-normal pb-2">Email address</p>
+                <input
+                  type="email"
+                  name="email"
+                  th:value="${email}"
+                  placeholder="Enter your email address"
+                  class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-xl text-white focus:outline-0 focus:ring-0 border border-[#474747] bg-[#212121] focus:border-[#474747] h-14 placeholder:text-[#ababab] p-[15px] text-base font-normal leading-normal"/>
+              </label>
+            </div>
+
+            <div class="flex max-w-[480px] flex-wrap items-end gap-4 px-4 py-3">
+              <label class="flex flex-col min-w-40 flex-1">
+                <p class="text-white text-base font-medium leading-normal pb-2">Password</p>
+                <input
+                  type="password"
+                  name="password"
+                  placeholder="Create a password"
+                  class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-xl text-white focus:outline-0 focus:ring-0 border border-[#474747] bg-[#212121] focus:border-[#474747] h-14 placeholder:text-[#ababab] p-[15px] text-base font-normal leading-normal"/>
+              </label>
+            </div>
+
+            <div class="flex max-w-[480px] flex-wrap items-end gap-4 px-4 py-3">
+              <label class="flex flex-col min-w-40 flex-1">
+                <p class="text-white text-base font-medium leading-normal pb-2">Confirm password</p>
+                <input
+                  type="password"
+                  name="confirmPassword"
+                  placeholder="Confirm your password"
+                  class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-xl text-white focus:outline-0 focus:ring-0 border border-[#474747] bg-[#212121] focus:border-[#474747] h-14 placeholder:text-[#ababab] p-[15px] text-base font-normal leading-normal"/>
+              </label>
+            </div>
+
+            <div class="flex px-4 py-3">
+              <button type="submit"
+                class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 px-4 flex-1 bg-black text-white text-sm font-bold leading-normal tracking-[0.015em]">
+                <span class="truncate">Sign up</span>
+              </button>
+            </div>
+          </form>
+
+          <p class="text-[#ababab] text-sm font-normal leading-normal pb-3 pt-1 px-4 text-center">
+            Already have an account?
+            <a th:href="@{/user/login}" class="underline">Log in</a>
+          </p>
+        </div>
+      </div>
+    </th:block>
+
+  </th:block>
+</html>

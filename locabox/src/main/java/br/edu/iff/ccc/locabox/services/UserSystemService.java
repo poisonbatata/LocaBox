@@ -66,11 +66,50 @@ public class UserSystemService {
         return filteredUsers;
     }
 
+    public UserSystem findByEmail(String email) {
+        if (email == null) return null;
+        List<UserSystem> users = getAllUserSystems();
+        for (UserSystem user : users) {
+            if (user.getEmail() != null && user.getEmail().equalsIgnoreCase(email)) {
+                return user;
+            }
+        }
+        return null;
+    }
 
+    public boolean existsByEmail(String email) {
+        if (email == null) return false;
+        String s = email.toLowerCase();
+        List<UserSystem> users = getAllUserSystems();
+        return users.stream().anyMatch(u -> u.getEmail()!=null && u.getEmail().equalsIgnoreCase(s));
+    }
 
-
-
-
-
-    
+    //public UserSystem register(String name, String email, String rawPassword) {
+    //    List<UserSystem> users = getAllUserSystems();
+    //    UserSystem u = new UserSystem();
+    //    // ID
+    //    try {
+    //        u.setId(seq.getAndIncrement());
+    //    } catch (NoSuchMethodError | Exception ignore) {
+    //        // se a sua classe usa outro tipo/forma de ID, ajuste aqui
+    //    }
+    //    // Nome (aceita get/setName OU get/setNome)
+    //    try { u.setName(name); } catch (NoSuchMethodError | Exception e) {
+    //        try { u.setNome(name); } catch (Exception ignore) {}
+    //    }
+    //    // Email
+    //    u.setEmail(email);
+    //
+    //    // Se houver campo de senha na sua entidade, salve-a (sem encoder, por enquanto)
+    //    try { u.setPassword(rawPassword); } catch (NoSuchMethodError | Exception ignore) {}
+    //
+    //    // Se houver campos extras (status/role), defina defaults
+    //    try { u.setStatus("ATIVO"); } catch (NoSuchMethodError | Exception ignore) {}
+    //    try { u.setRole("USER"); }   catch (NoSuchMethodError | Exception ignore) {}
+    //
+    //    users.add(u);
+    //    return u;
+    //
+    //}
+   
 }
