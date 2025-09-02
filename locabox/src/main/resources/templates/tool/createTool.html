@@ -1,26 +1,46 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <title>Cadastrar Ferramenta</title>
-</head>
-<body>
-    <h1>Cadastrar Nova Ferramenta</h1>
-    <form action="/tool/create" method="post">
-        <label>Nome:</label>
-        <input type="text" name="nome" required><br>
-        <label>Descrição:</label>
-        <input type="text" name="descricao" required><br>
-        <label>Categoria:</label>
-        <input type="text" name="categoria" required><br>
-        <label>Preço:</label>
-        <input type="number" name="preco" step="0.01" required><br>
-        <label>Condição:</label>
-        <input type="text" name="condicao" required><br>
-        <label>Disponibilidade:</label>
-        <input type="text" name="disponibilidade" required><br>
-        <label>Fotos (URL):</label>
-        <input type="text" name="fotos"><br>
-        <button type="submit">Cadastrar</button>
-    </form>
-</body>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+  <th:block th:replace="~{layout :: layout('Cadastrar Ferramenta', null, ~{::content})}">
+    <th:block th:fragment="content">
+      <h1 class="text-white text-xl font-bold mb-4">Cadastrar Nova Ferramenta</h1>
+
+      <form th:action="@{/tool/create}" th:object="${toolDTO}" method="post" class="flex flex-col gap-3">
+        <label class="text-white">Nome
+          <input th:field="*{nome}" class="form-input w-full text-black" />
+          <div class="text-red-400 text-sm" th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}"></div>
+        </label>
+
+        <label class="text-white">Descrição
+          <textarea th:field="*{descricao}" class="form-input w-full text-black"></textarea>
+          <div class="text-red-400 text-sm" th:if="${#fields.hasErrors('descricao')}" th:errors="*{descricao}"></div>
+        </label>
+
+        <label class="text-white">Categoria
+          <input th:field="*{categoria}" class="form-input w-full text-black" />
+          <div class="text-red-400 text-sm" th:if="${#fields.hasErrors('categoria')}" th:errors="*{categoria}"></div>
+        </label>
+
+        <label class="text-white">Preço por dia
+          <input type="number" step="0.01" th:field="*{preco}" class="form-input w-full text-black" />
+          <div class="text-red-400 text-sm" th:if="${#fields.hasErrors('preco')}" th:errors="*{preco}"></div>
+        </label>
+
+        <label class="text-white">Condição
+          <input th:field="*{condicao}" class="form-input w-full text-black" />
+          <div class="text-red-400 text-sm" th:if="${#fields.hasErrors('condicao')}" th:errors="*{condicao}"></div>
+        </label>
+
+        <label class="text-white">Disponibilidade
+          <input th:field="*{disponibilidade}" class="form-input w-full text-black" />
+          <div class="text-red-400 text-sm" th:if="${#fields.hasErrors('disponibilidade')}" th:errors="*{disponibilidade}"></div>
+        </label>
+
+        <label class="text-white">Fotos (URLs separadas por vírgula)
+          <input th:field="*{fotos}" class="form-input w-full text-black" />
+        </label>
+
+        <button class="rounded-full px-4 h-10 bg-black text-white font-bold w-fit">Salvar</button>
+      </form>
+    </th:block>
+  </th:block>
 </html>

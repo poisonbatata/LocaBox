@@ -60,3 +60,15 @@ build/
 
 ### VS Code ###
 .vscode/
+
+# ==== H2 / bancos locais ====
+*.mv.db
+*.h2.db
+*.trace.db
+*.db
+*/*.db
+
+### Env files ###
+.env
+.env.*.local
+

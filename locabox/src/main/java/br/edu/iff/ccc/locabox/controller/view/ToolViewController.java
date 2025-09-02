@@ -40,101 +40,76 @@ public class ToolViewController {
 
     @GetMapping(path = "/{id}")
     public String getToolById(@PathVariable("id") String id, Model model) {
-        // Título e descrição do produto
-        /*
-        model.addAttribute("productTitle", "Furadeira sem fio 50V Max");
-        model.addAttribute("productDescription", "Esta furadeira sem fio 20V Max é perfeita para diversas tarefas domésticas. Motor potente, transmissão de duas velocidades e embreagem ajustável para controle preciso. Acompanha 2 baterias e carregador.");
-
-        // Imagens do produto
-        model.addAttribute("mainImageUrl", "https://lh3.googleusercontent.com/aida-public/AB6AXuDMA8YcuBraFe85ucfpqTMMqoLCoAp592t_SeQHbyzy7ijjT1gz1jNwsGGFKRvrQnJJLBb6K8JszrNqqZ5FZVm_yFcB3Mkf2zJ7dKBvzfHjRqEn8o68J2VDvZyHjjNZnQk6yc9A4YKbhGvlUtUWZG-BcVrloGMqmKsMWpEHI9jA001BikQlMAN85zanJSByvXXMHWwqr8hUlVoXL9-HQBdDEPf9MEF8R54bqgnMiIAiSkSf22UL13LR_lJSnYCjRY4woh-Wm6zXEms");
-        model.addAttribute("imageUrls", List.of(
-            "https://lh3.googleusercontent.com/aida-public/AB6AXuAEBLPcVG4Hla5rvGe_jPsa9c-mvedA0liY23W_Rf4389XECiaPc3DbOBAOAqrTXtte8oHgxSiGW7OWG2ML3jy4y2giYxUiYo7hatIxd2A71nwznBRy1sPrS-diMlY3bVDNyyIgNYzyve2V0dZwAyjNBKtutVu1Ni1AEEUWAfqAfGUmqR0_oxN-GK3cU5S_ksKKZueFFc639kYEu_olrbWnFbeitvkcrTVlNXzFOGDIxzkeFtAtmFStfblFitEpot0g7g1RTyoMBHE",
-            "https://lh3.googleusercontent.com/aida-public/AB6AXuDy--0jD4M7E7VNJ1kZlLVgsQgyYRb309Hrbc5qNJPE9JJFBG3R_WkNIAMZNLowdc04LBVUQIQhA1S2_Fw-8x0lKUlQCAf-6PisEus8--LvJuAACoM5PmTjzli0bEN96kTrEnBbHTgky1xGTXSd6zvWapPh2Cmv-YDY-t61Hu1fFEZYHIErEAPI-DD8LphqIDPPNYhHZrsFx_pFnp9uvLqcX-TqWgePafp6BZDn8df43LIj-TgTg5GsJqSL41TaXP2rmr4M7Ah8Tnc"
-            ));
-            
-            // Preço e aluguel
-            model.addAttribute("pricePerDay", 25);
-            model.addAttribute("minDays", 1);
-            model.addAttribute("depositValue", 50);
-            
-            // Disponibilidade (exemplo de dias e calendário)
-            model.addAttribute("currentMonth", "Julho 2024");
-            model.addAttribute("weekdays", List.of("D", "S", "T", "Q", "Q", "S", "S"));
-            // Mock de dias do mês (supondo o dia 5 e 30 marcados/unavailable)
-            List<Map<String, Object>> calendarDays = new ArrayList<>();
-            for (int i = 1; i <= 30; i++) {
-                Map<String, Object> day = new HashMap<>();
-                day.put("day", i);
-                day.put("selected", i == 5 || i == 30);  // Exemplo: selecionado nos dias 5 e 30
-                day.put("unavailable", i % 7 == 0);      // Exemplo: indisponível aos domingos
-                calendarDays.add(day);
-            }
-            model.addAttribute("calendarDays", calendarDays);
-            
-            // Dados do vendedor
-            model.addAttribute("sellerName", "Emily Carter");
-            model.addAttribute("sellerImageUrl", "https://lh3.googleusercontent.com/aida-public/AB6AXuAjAvCtgTRt0daCd1w8uYj7-Ch0wv_Ui-QVat7WNj5-xpFFeaNsW5mnmk_-idl-AR3fPfA_oRobLw0iHP4mfC7rupsaNn4fY7wjkUAHf9-RNSrsWj6rH3YbBdCE7CP0SpCa19qg_LbejQrImNNzIdx4WtxIfUiBLSuHCtfBF2RaWmSPfbjEyPxuZI37x8XWRKm6vRy0zTSDb_X5hh6SeGfnHRadSZZuZ-nxXWWUydAjcKQ-KGf0YW5pa0QD7DlNICY0EkgO3WhDBqQ");
-            model.addAttribute("sellerRating", 4.8);
-            model.addAttribute("sellerReviews", 125);
-            
-            // Dados do usuário logado (avatar)
-            model.addAttribute("userImageUrl", "https://lh3.googleusercontent.com/aida-public/AB6AXuD5pPEXWPP4OJSapP0PrdYye7RSoedN23107N7sFKe6Sc0h2xJ8jGtnk1kWHOgDsN1nwSspYGKcjKaRUinEd6vlsR7WBrTWXVWuODrtDiA_7665R1etlyFy9FwWPe8Tv35T-sXlwK_YMmUC6Rv2aGEGjpyV4BB5d9i3RTb3wOMz_MIXdBrnyWquDUOsw5vz5-1Xrz6cayRT0r0G3u6NlLGGID7FB-x_4A-0n0YXtMiq60hYc5oVvA6wwFnUVvvNQRUxwq13Ym-uZZA");
-            
-            // Reviews resumo
-            model.addAttribute("avgReview", 4.8);
-            model.addAttribute("totalReviews", 125);
-            // Reviews por estrelas (1-5)
-            model.addAttribute("reviewStats", List.of(
-                Map.of("percent", 70, "score", 5),
-                Map.of("percent", 20, "score", 4),
-                Map.of("percent", 5,  "score", 3),
-                Map.of("percent", 3,  "score", 2),
-                Map.of("percent", 2,  "score", 1)
-                ));
-                
-                // Lista de avaliações (reviews)
-                List<Map<String, Object>> reviews = List.of(
-                    Map.of(
-                        "author", "Liam Harper",
-                        "avatarUrl", "https://lh3.googleusercontent.com/aida-public/AB6AXuCEK1srvAvSB4Ci8gigOu2xAhQiAIBLLGkVnKJ9ofXz7jZZUUSMhvmgkV8IanVIZOxZirX7D1x4ummVf7BzrP4ziTpQ-pOkrXcg40HR8CWGJtfArpyw7pq17cN_iEevutTl3IOEUzozWGdZ8DZL1paoXoNKjS_qdnXoY46vwUrQosO5VEw1RwYo0PU4XH-T9R2GLGnduYgab_i8a7KdgP9QfE_yAHKZcq3LXlVK5BoDkD4vvfX6blvQqGtwtkurLzAF3oRBA5BMago",
-                        "date", "15/06/2024",
-                        "stars", 5,
-                        "comment", "Ótima furadeira, funcionou perfeitamente para meu projeto. Emily foi muito atenciosa.",
-                        "likes", 10,
-                        "dislikes", 2
-                        ),
-                        Map.of(
-                            "author", "Sophia Bennett",
-                            "avatarUrl", "https://lh3.googleusercontent.com/aida-public/AB6AXuDC4EjL5rOLBbLM-18frnsb3BxiRsGl515VN_lixb9Qvs0SJ0q3UGJKMywxRqSJA19eLkQ_Tos1TvOjvxUE37xojy-NnVPmmMLP-vQWCCPGIh7PwN26Q0VMEEmryvrXn-av1wOXYCyBurQ755EsqLhKlKvcMmcBhh7DiP02soM52zEEbsrWMF7PNAD8RAEk_p1YuTxex2VATKYIfpSSLtsLEvc3LOkYG9r49kTvqMMf1QiGDfd6L9KN7el9Qk42deC6dvRAPhYqhjc",
-                            "date", "22/05/2024",
-                            "stars", 4,
-                            "comment", "A furadeira estava em boas condições e fácil de usar. Só achei que uma das baterias durou menos do que o esperado.",
-                            "likes", 5,
-                            "dislikes", 1
-                            )
-                            );
-                            model.addAttribute("reviews", reviews);
-        */
-
+        // 1) Busca a ferramenta
         Tool tool = toolService.findById(id);
         if (tool == null) {
             return "redirect:/tool/list";
         }
-        model.addAttribute("tool", tool);
 
-        return "tool/toolDetail.html";
+        // 2) Mapeia os campos do domínio -> variáveis do template
+        // Título e descrição
+        model.addAttribute("productTitle", tool.getNome());
+        model.addAttribute("productDescription", tool.getDescricao());
+
+        // Preço (por dia)
+        model.addAttribute("pricePerDay", tool.getPreco());
+
+        // Mínimo de dias / caução (ajuste conforme seu domínio; aqui vão defaults)
+        model.addAttribute("minDays", 1);
+        model.addAttribute("depositValue", 0);
+
+        // Imagens: pega da String "fotos" (separadas por vírgula, ponto-e-vírgula ou espaço)
+        List<String> imgs = parseFotos(tool.getFotos());
+        String main = imgs.isEmpty() ? "/images/placeholder.png" : imgs.get(0);
+        List<String> thumbs = imgs.size() > 1 ? imgs.subList(1, imgs.size()) : java.util.Collections.emptyList();
+        model.addAttribute("mainImageUrl", main);
+        model.addAttribute("imageUrls", thumbs);
+
+        // Cabeçalho (avatar do usuário logado, se tiver; por enquanto um placeholder)
+        model.addAttribute("userImageUrl", "/images/avatar.png");
+
+        // Disponibilidade / calendário (gera um grid do mês corrente)
+        java.time.YearMonth ym = java.time.YearMonth.now();
+        java.util.Locale br = new java.util.Locale("pt","BR");
+        model.addAttribute("currentMonth", ym.format(java.time.format.DateTimeFormatter.ofPattern("MMMM yyyy", br)));
+        model.addAttribute("weekdays", java.util.List.of("D","S","T","Q","Q","S","S"));
+        model.addAttribute("calendarDays", buildCalendar(ym, tool.getDisponibilidade()));
+
+        // Vendedor (ajuste se tiver relacionamento proprietário->ferramenta)
+        model.addAttribute("sellerImageUrl", "/images/seller.png");
+        model.addAttribute("sellerName", "Proprietário");
+        model.addAttribute("sellerRating", 4.8);
+        model.addAttribute("sellerReviews", 0);
+
+        // Avaliações (se ainda não implementou, mantemos vazio/zero)
+        model.addAttribute("avgReview", 0);
+        model.addAttribute("totalReviews", 0);
+        model.addAttribute("reviewStats", java.util.Collections.emptyList());
+        model.addAttribute("reviews", java.util.Collections.emptyList());
+
+        // 3) Devolve o novo template segmentado
+        return "tool/detail";
     }
 
     // Exibe formulário de cadastro
     @GetMapping("/create")
     public String showCreateForm(Model model) {
-        model.addAttribute("tool", new Tool());
+        model.addAttribute("toolDTO", new br.edu.iff.ccc.locabox.dto.ToolDTO());
         return "tool/createTool";
     }
 
     // Salva nova ferramenta
     @PostMapping("/create")
-    public String createTool(@ModelAttribute Tool tool) {
+    public String createTool(@ModelAttribute("toolDTO") br.edu.iff.ccc.locabox.dto.ToolDTO toolDTO) {
+        // Aqui você pode converter o DTO para entidade Tool antes de salvar
+        Tool tool = new Tool();
+        tool.setNome(toolDTO.getNome());
+        tool.setDescricao(toolDTO.getDescricao());
+        tool.setCategoria(toolDTO.getCategoria());
+        tool.setPreco(toolDTO.getPreco());
+        tool.setCondicao(toolDTO.getCondicao());
+        tool.setDisponibilidade(toolDTO.getDisponibilidade());
+        tool.setFotos(toolDTO.getFotos());
         toolService.cadastrarFerramenta(tool);
         return "redirect:/tool/list";
     }
@@ -159,58 +134,139 @@ public class ToolViewController {
         return "Produto deletado com sucesso: " + toolId;
     }
 
-    @GetMapping(path = "/list")
-       /* @ResponseBody
-    public List<Map<String, Object>> listTools() {
-        List<Map<String, Object>> tools = new ArrayList<>();
-        
-        // Mock de ferramentas
-        for (int i = 1; i <= 5; i++) {
-            Map<String, Object> tool = new HashMap<>();
-            tool.put("id", i);
-            tool.put("name", "Furadeira " + i);
-            tool.put("description", "Descrição da furadeira " + i);
-            tool.put("price", 25.0 * i);
-            tool.put("imageUrl", "https://example.com/tool" + i + ".jpg");
-            tools.add(tool);
-        }
-        
-        return tools;
-    }*/
-    public String listTools(Model model) {
-        model.addAttribute("tools", toolService.listarFerramentas());
-        return "tool/toolDetailHome";
+    //@GetMapping(path = "/list")
+    //   /* @ResponseBody
+    //public List<Map<String, Object>> listTools() {
+    //    List<Map<String, Object>> tools = new ArrayList<>();
+    //    
+    //    // Mock de ferramentas
+    //    for (int i = 1; i <= 5; i++) {
+    //        Map<String, Object> tool = new HashMap<>();
+    //        tool.put("id", i);
+    //        tool.put("name", "Furadeira " + i);
+    //        tool.put("description", "Descrição da furadeira " + i);
+    //        tool.put("price", 25.0 * i);
+    //        tool.put("imageUrl", "https://example.com/tool" + i + ".jpg");
+    //        tools.add(tool);
+    //    }
+    //    
+    //    return tools;
+    //}*/
+    //public String listTools(Model model) {
+    //    model.addAttribute("tools", toolService.listarFerramentas());
+    //    return "tool/toolDetailHome";
+    //}
+
+    //@GetMapping(path = "/search")
+    //@ResponseBody
+    //public List<Map<String, Object>> searchTools(@RequestParam String query) {
+    //    List<Map<String, Object>> tools = new ArrayList<>();
+    //    
+    //    // Mock de ferramentas filtradas pela query
+    //    for (int i = 1; i <= 5; i++) {
+    //        if (("Furadeira " + i).toLowerCase().contains(query.toLowerCase())) {
+    //            Map<String, Object> tool = new HashMap<>();
+    //            tool.put("id", i);
+    //            tool.put("name", "Furadeira " + i);
+    //            tool.put("description", "Descrição da furadeira " + i);
+    //            tool.put("price", 25.0 * i);
+    //            tool.put("imageUrl", "/images/furadeira" + i + ".jpg");
+    //            tools.add(tool);
+    //        }
+    //    }
+    //    
+    //    return tools;
+    //}
+
+    @GetMapping("/search")
+    public String search(
+            @RequestParam(value = "q", required = false) String q,
+            @RequestParam(value = "page", defaultValue = "1") int page,
+            Model model) {
+
+        int pageSize = 12;
+
+        // 1) Buscar/filtrar (veja item 5 para o service)
+        List<Tool> all = toolService.findAll(); // novo método simples
+        List<Tool> filtered = (q == null || q.isBlank())
+                ? all
+                : all.stream()
+                    .filter(t -> t.getNome() != null && t.getNome().toLowerCase().contains(q.toLowerCase()))
+                    .toList();
+
+        // 2) Paginar (simplificado)
+        int total = filtered.size();
+        int totalPages = Math.max(1, (int) Math.ceil(total / (double) pageSize));
+        int from = Math.max(0, (page - 1) * pageSize);
+        int to = Math.min(total, from + pageSize);
+        List<Tool> pageItems = from < to ? filtered.subList(from, to) : List.of();
+
+        // 3) Mapear para o DTO de card
+        List<br.edu.iff.ccc.locabox.dto.ToolCardDTO> cards = pageItems.stream()
+                .map(br.edu.iff.ccc.locabox.mapper.ToolCardMapper::toCard)
+                .toList();
+
+        // 4) Model
+        model.addAttribute("pageTitle", "LocaBox — Buscar");
+        model.addAttribute("q", q);
+        model.addAttribute("filters", List.of("Category", "Price", "Location", "Rating"));
+        model.addAttribute("tools", cards);
+        model.addAttribute("page", page);
+        model.addAttribute("totalPages", totalPages);
+
+        return "search";
     }
 
-    @GetMapping(path = "/search")
-    @ResponseBody
-    public List<Map<String, Object>> searchTools(@RequestParam String query) {
-        List<Map<String, Object>> tools = new ArrayList<>();
-        
-        // Mock de ferramentas filtradas pela query
-        for (int i = 1; i <= 5; i++) {
-            if (("Furadeira " + i).toLowerCase().contains(query.toLowerCase())) {
-                Map<String, Object> tool = new HashMap<>();
-                tool.put("id", i);
-                tool.put("name", "Furadeira " + i);
-                tool.put("description", "Descrição da furadeira " + i);
-                tool.put("price", 25.0 * i);
-                tool.put("imageUrl", "https://example.com/tool" + i + ".jpg");
-                tools.add(tool);
-            }
-        }
-        
-        return tools;
-    }
 
     @GetMapping(path = "/user/{userId}")
     public String getUserTools(@PathVariable("userId") String userId, Model model) {
         model.addAttribute("userId", userId);
         model.addAttribute("userName", "Usuário " + userId);
-        model.addAttribute("tools", listTools()); // Mock de ferramentas do usuário
-        return "userToolsHome.html";
+        model.addAttribute("tools", toolService.listarFerramentas()); // Mock de ferramentas do usuário
+        return "tool/toolDetailHome";
     }
 
+
+
+
+
+
+
+
+
+
+    // HELPERS
+    private static java.util.List<String> parseFotos(String fotos) {
+    if (fotos == null || fotos.isBlank()) return new java.util.ArrayList<>();
+    return java.util.Arrays.stream(fotos.split("[,;\\s]+"))
+            .filter(s -> s != null && !s.isBlank())
+            .toList();
+}
+
+private static java.util.List<java.util.Map<String, Object>> buildCalendar(java.time.YearMonth ym, String disponibilidade) {
+    java.util.List<java.util.Map<String, Object>> days = new java.util.ArrayList<>();
+
+    java.time.LocalDate first = ym.atDay(1);
+    // Domingo = 0, Segunda = 1, ... (ajuste para grid iniciar no domingo)
+    int shift = first.getDayOfWeek().getValue() % 7;
+    java.time.LocalDate start = first.minusDays(shift);
+
+    for (int i = 0; i < 42; i++) {
+        java.time.LocalDate d = start.plusDays(i);
+        java.util.Map<String, Object> entry = new java.util.HashMap<>();
+        entry.put("day", d.getMonth() == ym.getMonth() ? d.getDayOfMonth() : "");
+
+        // Regra simplificada: se disponibilidade for "Indisponível", marca todo o mês como indisponível
+        boolean unavailable = d.getMonth() == ym.getMonth()
+                && disponibilidade != null
+                && disponibilidade.equalsIgnoreCase("Indisponível");
+
+        entry.put("unavailable", unavailable);
+        entry.put("selected", false);
+        days.add(entry);
+    }
+    return days;
+}
 
     
 }

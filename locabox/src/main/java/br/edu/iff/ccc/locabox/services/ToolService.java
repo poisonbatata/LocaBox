@@ -14,9 +14,9 @@ public class ToolService {
 
     public ToolService() {
         // Dados mockados
-        tools.add(new Tool(idGenerator.getAndIncrement(), "Furadeira Bosch", "Furadeira potente 500W", "Elétrica", 30.0, "Nova", "Disponível", "https://exemplo.com/furadeira.jpg"));
-        tools.add(new Tool(idGenerator.getAndIncrement(), "Serra Circular", "Serra para madeira", "Elétrica", 45.0, "Usada", "Disponível", "https://exemplo.com/serra.jpg"));
-        tools.add(new Tool(idGenerator.getAndIncrement(), "Martelo", "Martelo de aço", "Manual", 10.0, "Nova", "Indisponível", "https://exemplo.com/martelo.jpg"));
+        tools.add(new Tool(idGenerator.getAndIncrement(), "Furadeira Bosch", "Furadeira potente 500W", "Elétrica", 30.0, "Nova", "Disponível", "/images/furadeira1.png"));
+        tools.add(new Tool(idGenerator.getAndIncrement(), "Serra Circular", "Serra para madeira", "Elétrica", 45.0, "Usada", "Disponível", "/images/serra-circular.jpg"));
+        tools.add(new Tool(idGenerator.getAndIncrement(), "Martelo", "Martelo de aço", "Manual", 10.0, "Nova", "Indisponível", "/images/martelo.jpg"));
     }
 
     public List<Tool> listarFerramentas() {
@@ -34,5 +34,9 @@ public class ToolService {
                 .filter(tool -> tool.getId() == Long.parseLong(id))
                 .findFirst()
                 .orElse(null);
+    }
+
+    public List<Tool> findAll() {
+        return new ArrayList<>(tools);
     }
 }

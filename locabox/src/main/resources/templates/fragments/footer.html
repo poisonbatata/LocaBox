@@ -1,0 +1,8 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+  <body>
+    <footer th:fragment="footer" class="mt-16 border-t border-[#303030] text-[#ababab] px-10 py-6 text-sm">
+      <p>&copy; <span th:text="${#temporals.format(#temporals.createNow(), 'yyyy')}">2025</span> LocaBox — Todos os direitos reservados.</p>
+    </footer>
+  </body>
+</html>
