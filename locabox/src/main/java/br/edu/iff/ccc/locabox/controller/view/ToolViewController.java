@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import br.edu.iff.ccc.locabox.entities.Tool;
+import br.edu.iff.ccc.locabox.exception.ToolNotExist;
 import br.edu.iff.ccc.locabox.services.ToolService;
 
 @Controller
@@ -41,10 +42,14 @@ public class ToolViewController {
     @GetMapping(path = "/{id}")
     public String getToolById(@PathVariable("id") String id, Model model) {
         // 1) Busca a ferramenta
-        Tool tool = toolService.findById(id);
-        if (tool == null) {
+        Tool tool;
+        try {
+            tool = toolService.findById(id);
+        } catch (ToolNotExist e) {
+            model.addAttribute("errorMessage", e.getMessage());
             return "redirect:/tool/list";
         }
+
 
         // 2) Mapeia os campos do domínio -> variáveis do template
         // Título e descrição
