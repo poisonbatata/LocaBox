@@ -22,9 +22,13 @@ public interface ToolRepository extends JpaRepository<Tool, Long> {
     @Query("SELECT t FROM Tool t WHERE t.preco <= :price ORDER BY t.preco ASC")
     List<Tool> findByPriceGreaterThanEqual(double price);
 
+    @Query("SELECT t FROM Tool t WHERE t.preco >= :price ORDER BY t.preco DESC")
+    List<Tool> findByPriceLessThanEqual(double price);
+
     @Query("SELECT t FROM Tool t WHERE t.condicao = :condition")
     List<Tool> findByCondition(String condition);
 
-
+    @Query("SELECT t FROM Tool t WHERE t.owner.id = :ownerId")
+    List<Tool> findByOwnerId(Long ownerId);
 
 }
