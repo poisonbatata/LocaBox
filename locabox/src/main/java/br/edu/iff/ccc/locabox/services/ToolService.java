@@ -26,4 +26,8 @@ public class ToolService {
     public List<Tool> findAll() {
         return toolRepository.findAll();
     }
+
+    public Tool findByName(String name) {
+        return toolRepository.findByName(name);
+    }
 }
