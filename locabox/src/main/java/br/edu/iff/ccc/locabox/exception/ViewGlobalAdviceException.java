@@ -12,8 +12,10 @@ public class ViewGlobalAdviceException {
     @ExceptionHandler(Exception.class)
     public ModelAndView defaultErrorHandler(HttpServletRequest req, Exception e) {
         ModelAndView mav = new ModelAndView();
-        mav.addObject("exception", e);
-        mav.addObject("url", req.getRequestURL());
+        mav.addObject("erro", e);
+        mav.addObject("path", req.getRequestURL());
+        mav.addObject("message", e.getMessage());
+        mav.addObject("status", 500);
         mav.setViewName("error");
         return mav;
     }

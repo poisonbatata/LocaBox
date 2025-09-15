@@ -4,13 +4,15 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import br.edu.iff.ccc.locabox.entities.Tool;
 
 @Repository
 public interface ToolRepository extends JpaRepository<Tool, Long> {
-    Tool findByName(String name);
+    @Query("SELECT t FROM Tool t WHERE t.nome = :nome")
+    Tool findByName(@Param("nome") String nome);
     
     List<Tool> findByCategoria(String Categoria);
 

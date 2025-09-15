@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tela padrão de erro</title>
+</head>
+<body>
+    <main>
+        <h1>Detalhes do Erro</h1>
+        <div>
+            <p><strong>Código do Erro:</strong> <span th:text="${status}">Erro</span></p>
+            <p><strong>Mensagem do Erro:</strong> <span th:text="${erro}">Descrição do erro</span></p>
+            <p><strong>Mensagem detalhada:</strong> <span th:text="${message}">Mensagem detalhada do erro</span></p>
+            <p><strong>URI requisitada:</strong> <span th:text="${path}">/uri/requisitada</span></p>
+        </div>
+        <a th:href="@{/}">Voltar para a página inicial</a>
+    </main>
+    
+</body>
+</html>
