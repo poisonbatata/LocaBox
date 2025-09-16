@@ -20,8 +20,8 @@ public class ToolService {
         toolRepository.save(tool);
     }
 
-    public Tool findById(String id) {
-        return toolRepository.findById(Long.parseLong(id)).orElseThrow(() -> new ToolNotExist(Long.parseLong(id)));
+    public Tool findById(Long id) {
+        return toolRepository.findById(id).orElseThrow(() -> new ToolNotExist(id));
     }
 
     public List<Tool> findAll() {

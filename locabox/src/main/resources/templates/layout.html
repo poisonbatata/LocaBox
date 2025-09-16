@@ -7,6 +7,17 @@
       <div class="layout-container flex h-full grow flex-col">
         <header th:replace="~{fragments/header :: header(${userImageUrl})}"></header>
         <main class="px-40 flex flex-1 justify-center py-5">
+
+        <div class="text-white">
+          <div th:if="${successMessage}" class="alert alert-success" role="alert">
+            <span th:text="${successMessage}"></span>
+          </div>
+  
+          <div th:if="${errorMessage}" class="alert alert-danger" role="alert">
+            <span th:text="${errorMessage}"></span>
+          </div>
+        </div>
+
           <div class="layout-content-container flex flex-col max-w-[960px] flex-1">
             <div th:insert="${content}"></div>
           </div>
