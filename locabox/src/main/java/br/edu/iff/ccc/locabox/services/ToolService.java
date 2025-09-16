@@ -16,8 +16,8 @@ public class ToolService {
     @Autowired
     private ToolRepository toolRepository;
     
-    public void cadastrarFerramenta(Tool tool) {
-        toolRepository.save(tool);
+    public Tool cadastrarFerramenta(Tool tool) {
+        return toolRepository.save(tool);
     }
 
     public Tool findById(Long id) {
@@ -30,5 +30,25 @@ public class ToolService {
 
     public Tool findByName(String name) {
         return toolRepository.findByName(name);
+    }
+
+    public boolean deleteToolById(Long id) {
+        if (toolRepository.existsById(id)) {
+            toolRepository.deleteById(id);
+            return true;
+        }
+        return false;
+    }
+
+    public Tool updateTool(Long id, Tool updatedTool) {
+        Tool existing = toolRepository.findById(id).orElseThrow(() -> new ToolNotExist(id));
+        existing.setNome(updatedTool.getNome());
+        existing.setDescricao(updatedTool.getDescricao());
+        existing.setCategoria(updatedTool.getCategoria());
+        existing.setPreco(updatedTool.getPreco());
+        existing.setCondicao(updatedTool.getCondicao());
+        existing.setDisponibilidade(updatedTool.getDisponibilidade());
+        existing.setFotos(updatedTool.getFotos());
+        return toolRepository.save(existing);
     }
 }

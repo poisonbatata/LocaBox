@@ -17,10 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
 import br.edu.iff.ccc.locabox.entities.Tool;
-import br.edu.iff.ccc.locabox.exception.ToolNotExist;
 import br.edu.iff.ccc.locabox.services.ToolService;
 
 @Controller
@@ -42,16 +39,12 @@ public class ToolViewController {
     private ToolService toolService;
 
     @GetMapping(path = "/{id}")
-    public String getToolById(@PathVariable("id") Long id, Model model, RedirectAttributes redirectAttrs) {
+    public String getToolById(@PathVariable("id") Long id, Model model) {
         // 1) Busca a ferramenta
-        Tool tool;
-        try {
-            tool = toolService.findById(id);
-        } catch (ToolNotExist e) {
-            redirectAttrs.addFlashAttribute("errorMessage", e.getMessage());
-            return "redirect:/tool/search";
+        Tool tool = toolService.findById(id);
+        if (tool == null) {
+            return "redirect:/tool/list";
         }
-
 
         // 2) Mapeia os campos do domínio -> variáveis do template
         // Título e descrição
@@ -117,9 +110,8 @@ public class ToolViewController {
         tool.setCondicao(toolDTO.getCondicao());
         tool.setDisponibilidade(toolDTO.getDisponibilidade());
         tool.setFotos(toolDTO.getFotos());
-
         toolService.cadastrarFerramenta(tool);
-        return "redirect:/tool/search";
+        return "redirect:/tool/list";
     }
     
     @PostMapping(path = "/edit")
