@@ -43,6 +43,15 @@
       <!-- Grid de resultados -->
       <div class="grid grid-cols-[repeat(auto-fit,minmax(158px,1fr))] gap-3 p-4">
         <!-- Estado vazio -->
+        <!--
+        <div th:if="${successMessage}" class="alert alert-success text-[#ababab]" role="alert">
+          <span th:text="${successMessage}"></span>
+        </div>
+
+        <div th:if="${errorMessage}" class="alert alert-danger text-[#ababab]" role="alert">
+            <span th:text="${errorMessage}"></span>
+        </div>
+        -->
         <div th:if="${#lists.isEmpty(tools)}" class="col-span-full text-center py-10">
           <p class="text-[#ababab]">Nenhum item encontrado.</p>
         </div>

@@ -39,7 +39,7 @@ public class Tool {
     private String fotos;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "owner_id", nullable = false,
+    @JoinColumn(name = "owner_id", //nullable = false,
                 foreignKey = @ForeignKey(name = "fk_tool_owner"))
     private Person owner;
 
