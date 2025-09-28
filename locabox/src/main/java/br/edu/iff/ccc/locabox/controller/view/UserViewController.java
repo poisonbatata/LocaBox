@@ -46,7 +46,7 @@ public class UserViewController {
 
     @GetMapping(path = "/{id}")
     public String getUserById(@PathVariable("id") Long id, Model model) {
-        var user = userSystemService.getUserSystemById(id); // já existe no seu service :contentReference[oaicite:4]{index=4}
+        var user = userSystemService.findById(id);
         if (user == null) {
             model.addAttribute("error", "User not found");
             return "errorView.html";
