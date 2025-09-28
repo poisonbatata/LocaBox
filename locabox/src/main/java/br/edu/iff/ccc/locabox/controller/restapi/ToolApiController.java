@@ -50,7 +50,7 @@ public class ToolApiController {
     // CREATE tool
     @Operation(summary = "Criar nova ferramenta", description = "Adiciona uma nova ferramenta ao sistema.")
     @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "Ferramenta criada com sucesso")
+        @ApiResponse(responseCode = "201", description = "Ferramenta criada com sucesso")
     })
     @PostMapping
     public ResponseEntity<Tool> createTool(@RequestBody Tool tool) {
