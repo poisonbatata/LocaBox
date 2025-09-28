@@ -66,8 +66,8 @@ public class ToolApiController {
     })
     @PutMapping("/{id}")
     public ResponseEntity<Tool> updateTool(@Parameter(description = "ID da ferramenta") @PathVariable Long id, @RequestBody Tool updatedTool) {
-    Tool updated = toolService.updateTool(id, updatedTool);
-    return ResponseEntity.ok(updated);
+        Tool updated = toolService.updateTool(id, updatedTool);
+        return ResponseEntity.ok(updated);
     }
 
     // DELETE tool
