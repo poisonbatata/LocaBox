@@ -26,7 +26,6 @@ public class UserSystemService {
         return userRepository.findById(id).orElseThrow(() -> new UserNotExist(id));
     }
 
-
     public UserSystem findByEmail(String email) {
         UserSystem user = userRepository.findByEmail(email);
         if (user == null) throw new UserNotExist(email);
@@ -54,6 +53,8 @@ public class UserSystemService {
 
         existing.setNome(updated.getNome());
         existing.setEmail(updated.getEmail());
+        existing.setStatus(updated.getStatus());
+        existing.setRole(updated.getRole());
         return userRepository.save(existing);
     }
 
