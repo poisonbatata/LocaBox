@@ -62,6 +62,7 @@ build/
 .vscode/
 
 # ==== H2 / bancos locais ====
+locabox/*.db
 *.mv.db
 *.h2.db
 *.trace.db
