@@ -11,6 +11,7 @@ import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.ConstraintViolationException;
@@ -63,6 +64,27 @@ public class RESTGlobalAdviceException {
         ProblemDetail pd = ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, "JSON inválido ou incompleto");
         pd.setTitle("Bad Request");
         pd.setInstance(URI.create(req.getRequestURI()));
+        return pd;
+    }
+
+    @ExceptionHandler(ToolNotExist.class)
+    public ProblemDetail handleToolNotExist(ToolNotExist ex, HttpServletRequest req) {
+        ProblemDetail pd = ProblemDetail.forStatusAndDetail(HttpStatus.NOT_FOUND, ex.getMessage());
+        pd.setTitle("Recurso não encontrado");
+        pd.setInstance(URI.create(req.getRequestURI()));
+        return pd;
+    }
+
+    // Converte erros de path params inválidos (ex.: /tool/abc) em 400 com ProblemDetail
+    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+    public ProblemDetail handleTypeMismatch(MethodArgumentTypeMismatchException ex, HttpServletRequest req) {
+        ProblemDetail pd = ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST,
+                "Parâmetro inválido: " + ex.getName());
+        pd.setTitle("Bad Request");
+        pd.setInstance(URI.create(req.getRequestURI()));
+        pd.setProperty("expectedType",
+                ex.getRequiredType() != null ? ex.getRequiredType().getSimpleName() : "unknown");
+        pd.setProperty("value", ex.getValue());
         return pd;
     }
 }
