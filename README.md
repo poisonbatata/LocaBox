@@ -121,6 +121,7 @@ Códigos HTTP
 - 200 OK em consultas/atualizações
 - 204 No Content em deleção
 - 404 Not Found quando o recurso não existe
+- 409 Conflict quando há algum conflito de dados
 
 ---
 
