@@ -78,21 +78,17 @@ spring.mvc.problemdetails.enabled=true
 ```
 - O arquivo do banco será criado na raiz do módulo `locabox` como `data.exemplo.mv.db`.
 - Para resetar o banco (perder dados), pare a app e apague `data.exemplo*.mv.db`.
+```
+---
 
 
-URLs
+## 🌐 Endpoints Principais (API REST /api/v1)
 - App (home): http://localhost:8080/
 - API base: http://localhost:8080/api/v1
 - Swagger UI: http://localhost:8080/swagger-ui/index.html
 - OpenAPI JSON: http://localhost:8080/v3/api-docs
 - H2 Console: http://localhost:8080/h2-console
 
----
-
-
-
-
-## 🌐 Endpoints Principais (API REST /api/v1)
 
 Users
 - GET /users
