@@ -17,10 +17,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
+import br.edu.iff.ccc.locabox.dto.ToolResponseDTO;
 import br.edu.iff.ccc.locabox.entities.Tool;
-import br.edu.iff.ccc.locabox.exception.ToolNotExist;
 import br.edu.iff.ccc.locabox.services.ToolService;
 
 @Controller
@@ -42,16 +40,12 @@ public class ToolViewController {
     private ToolService toolService;
 
     @GetMapping(path = "/{id}")
-    public String getToolById(@PathVariable("id") Long id, Model model, RedirectAttributes redirectAttrs) {
+    public String getToolById(@PathVariable("id") Long id, Model model) {
         // 1) Busca a ferramenta
-        Tool tool;
-        try {
-            tool = toolService.findById(id);
-        } catch (ToolNotExist e) {
-            redirectAttrs.addFlashAttribute("errorMessage", e.getMessage());
-            return "redirect:/tool/search";
+        Tool tool = toolService.findById(id);
+        if (tool == null) {
+            return "redirect:/tool/list";
         }
-
 
         // 2) Mapeia os campos do domínio -> variáveis do template
         // Título e descrição
@@ -117,9 +111,8 @@ public class ToolViewController {
         tool.setCondicao(toolDTO.getCondicao());
         tool.setDisponibilidade(toolDTO.getDisponibilidade());
         tool.setFotos(toolDTO.getFotos());
-
         toolService.cadastrarFerramenta(tool);
-        return "redirect:/tool/search";
+        return "redirect:/tool/list";
     }
     
     @PostMapping(path = "/edit")
@@ -195,11 +188,41 @@ public class ToolViewController {
         int pageSize = 12;
 
         // 1) Buscar/filtrar (veja item 5 para o service)
-        List<Tool> all = toolService.findAll(); // novo método simples
+        //List<Tool> all = toolService.findAll(); // novo método simples
+        //List<Tool> filtered = (q == null || q.isBlank())
+        //        ? all
+        //        : all.stream()
+        //            .filter(t -> t.getNome() != null && t.getNome().toLowerCase().contains(q.toLowerCase()))
+        //            .toList();
+
+        List<ToolResponseDTO> all = toolService.findAll(); // novo método simples
         List<Tool> filtered = (q == null || q.isBlank())
-                ? all
+                ? all.stream().map(dto -> {
+                    Tool t = new Tool();
+                    t.setId(dto.getId());
+                    t.setNome(dto.getNome());
+                    t.setDescricao(dto.getDescricao());
+                    t.setCategoria(dto.getCategoria());
+                    t.setPreco(dto.getPreco());
+                    t.setCondicao(dto.getCondicao());
+                    t.setDisponibilidade(dto.getDisponibilidade());
+                    t.setFotos(null); // Fotos não são necessárias para a listagem
+                    return t;
+                }).toList()
                 : all.stream()
                     .filter(t -> t.getNome() != null && t.getNome().toLowerCase().contains(q.toLowerCase()))
+                    .map(dto -> {
+                        Tool t = new Tool();
+                        t.setId(dto.getId());
+                        t.setNome(dto.getNome());
+                        t.setDescricao(dto.getDescricao());
+                        t.setCategoria(dto.getCategoria());
+                        t.setPreco(dto.getPreco());
+                        t.setCondicao(dto.getCondicao());
+                        t.setDisponibilidade(dto.getDisponibilidade());
+                        t.setFotos(null); // Fotos não são necessárias para a listagem
+                        return t;
+                    })
                     .toList();
 
         // 2) Paginar (simplificado)

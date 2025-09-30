@@ -41,7 +41,8 @@ public class Tool {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "owner_id", //nullable = false,
                 foreignKey = @ForeignKey(name = "fk_tool_owner"))
-    private Person owner;
+    //private Person owner;
+    private UserSystem owner;
 
     public Tool() {}
 
@@ -73,4 +74,11 @@ public class Tool {
     public void setDisponibilidade(String disponibilidade) { this.disponibilidade = disponibilidade; }
     public String getFotos() { return fotos; }
     public void setFotos(String fotos) { this.fotos = fotos; }
+
+    public UserSystem getOwner() {
+        return owner;
+    }
+    public void setOwner(UserSystem owner) {
+        this.owner = owner;
+    }
 }

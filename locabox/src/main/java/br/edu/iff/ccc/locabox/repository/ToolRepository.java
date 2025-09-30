@@ -30,7 +30,7 @@ public interface ToolRepository extends JpaRepository<Tool, Long> {
     @Query("SELECT t FROM Tool t WHERE t.condicao = :condition")
     List<Tool> findByCondition(String condition);
 
-    //@Query("SELECT t FROM Tool t WHERE t.owner.id = :ownerId")
-    //List<Tool> findByOwnerId(Long ownerId);
+    @Query("SELECT t FROM Tool t WHERE t.owner.id = :ownerId")
+    List<Tool> findByOwnerId(Long ownerId);
 
 }

@@ -23,15 +23,17 @@ public class Rental {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    // Ferramenta alugada
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "tool_id", nullable = false,
-                foreignKey = @ForeignKey(name = "fk_rental_tool"))
+            foreignKey = @ForeignKey(name = "fk_rental_tool"))
     private Tool tool;
 
+    // Usuário que alugou (UserSystem)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "renter_id", nullable = false,
-                foreignKey = @ForeignKey(name = "fk_rental_renter"))
-    private Person renter;
+            foreignKey = @ForeignKey(name = "fk_rental_renter"))
+    private UserSystem renter;
 
     @Column(nullable = false)
     private LocalDate startDate;
@@ -43,15 +45,16 @@ public class Rental {
     @Column(nullable = false, length = 20)
     private Status status = Status.PENDENTE;
 
-    // Getters and setters
+    public Rental() {}
+
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
     public Tool getTool() { return tool; }
     public void setTool(Tool tool) { this.tool = tool; }
 
-    public Person getRenter() { return renter; }
-    public void setRenter(Person renter) { this.renter = renter; }
+    public UserSystem getRenter() { return renter; }
+    public void setRenter(UserSystem renter) { this.renter = renter; }
 
     public LocalDate getStartDate() { return startDate; }
     public void setStartDate(LocalDate startDate) { this.startDate = startDate; }
