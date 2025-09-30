@@ -24,9 +24,6 @@ public class ToolApiController {
 
     // GET all tools
     @Operation(summary = "Listar todas as ferramentas", description = "Retorna uma lista de todas as ferramentas cadastradas.")
-    @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "Lista retornada com sucesso")
-    })
     @GetMapping
     public ResponseEntity<List<Tool>> getTools() {
         return ResponseEntity.ok(toolService.findAll());
@@ -34,10 +31,6 @@ public class ToolApiController {
 
     // GET tool by id
     @Operation(summary = "Buscar ferramenta por ID", description = "Retorna uma ferramenta específica pelo seu ID.")
-    @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "Ferramenta encontrada"),
-        @ApiResponse(responseCode = "404", description = "Ferramenta não encontrada")
-    })
     @GetMapping("/{id}")
     public ResponseEntity<Tool> getToolById(@Parameter(description = "ID da ferramenta") @PathVariable Long id) {
         Tool tool = toolService.findById(id);
@@ -49,9 +42,6 @@ public class ToolApiController {
 
     // CREATE tool
     @Operation(summary = "Criar nova ferramenta", description = "Adiciona uma nova ferramenta ao sistema.")
-    @ApiResponses(value = {
-        @ApiResponse(responseCode = "201", description = "Ferramenta criada com sucesso")
-    })
     @PostMapping
     public ResponseEntity<Tool> createTool(@RequestBody Tool tool) {
         Tool created = toolService.cadastrarFerramenta(tool);
@@ -60,10 +50,6 @@ public class ToolApiController {
 
     // UPDATE tool
     @Operation(summary = "Atualizar ferramenta", description = "Atualiza os dados de uma ferramenta existente.")
-    @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "Ferramenta atualizada com sucesso"),
-        @ApiResponse(responseCode = "404", description = "Ferramenta não encontrada")
-    })
     @PutMapping("/{id}")
     public ResponseEntity<Tool> updateTool(@Parameter(description = "ID da ferramenta") @PathVariable Long id, @RequestBody Tool updatedTool) {
         Tool updated = toolService.updateTool(id, updatedTool);
@@ -72,10 +58,6 @@ public class ToolApiController {
 
     // DELETE tool
     @Operation(summary = "Deletar ferramenta", description = "Remove uma ferramenta do sistema pelo ID.")
-    @ApiResponses(value = {
-        @ApiResponse(responseCode = "204", description = "Ferramenta deletada com sucesso"),
-        @ApiResponse(responseCode = "404", description = "Ferramenta não encontrada")
-    })
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteTool(@Parameter(description = "ID da ferramenta") @PathVariable Long id) {
         boolean deleted = toolService.deleteToolById(id);

@@ -27,17 +27,12 @@ public class UserApiController {
     private UserSystemService userService;
 
     @Operation(summary = "Listar todos os usuários")
-    @ApiResponses(@ApiResponse(responseCode = "200", description = "Lista retornada com sucesso"))
     @GetMapping
     public ResponseEntity<List<UserSystem>> getAll() {
         return ResponseEntity.ok(userService.findAll());
     }
 
     @Operation(summary = "Buscar usuário por ID")
-    @ApiResponses({
-        @ApiResponse(responseCode = "200", description = "Usuário encontrado"),
-        @ApiResponse(responseCode = "404", description = "Usuário não encontrado")
-    })
     @GetMapping("/{id}")
     public ResponseEntity<UserSystem> getById(@PathVariable Long id) {
         try {
@@ -57,10 +52,6 @@ public class UserApiController {
     }
 
     @Operation(summary = "Criar novo usuário")
-    @ApiResponses({
-        @ApiResponse(responseCode = "201", description = "Usuário criado"),
-        @ApiResponse(responseCode = "400", description = "Dados inválidos")
-    })
     @PostMapping
     public ResponseEntity<UserSystem> create(@Valid @RequestBody UserSystem user) {
         UserSystem created = userService.create(user);
@@ -69,20 +60,12 @@ public class UserApiController {
     }
 
     @Operation(summary = "Atualizar usuário")
-    @ApiResponses({
-        @ApiResponse(responseCode = "200", description = "Usuário atualizado"),
-        @ApiResponse(responseCode = "404", description = "Usuário não encontrado")
-    })
     @PutMapping("/{id}")
     public ResponseEntity<UserSystem> update(@PathVariable Long id, @Valid @RequestBody UserSystem updated) {
         return ResponseEntity.ok(userService.update(id, updated));
     }
 
     @Operation(summary = "Deletar usuário")
-    @ApiResponses({
-        @ApiResponse(responseCode = "204", description = "Usuário deletado"),
-        @ApiResponse(responseCode = "404", description = "Usuário não encontrado")
-    })
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         boolean deleted = userService.deleteById(id);
