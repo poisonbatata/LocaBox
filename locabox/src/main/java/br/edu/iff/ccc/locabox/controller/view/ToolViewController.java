@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import br.edu.iff.ccc.locabox.dto.ToolResponseDTO;
 import br.edu.iff.ccc.locabox.entities.Tool;
 import br.edu.iff.ccc.locabox.services.ToolService;
 
@@ -187,11 +188,41 @@ public class ToolViewController {
         int pageSize = 12;
 
         // 1) Buscar/filtrar (veja item 5 para o service)
-        List<Tool> all = toolService.findAll(); // novo método simples
+        //List<Tool> all = toolService.findAll(); // novo método simples
+        //List<Tool> filtered = (q == null || q.isBlank())
+        //        ? all
+        //        : all.stream()
+        //            .filter(t -> t.getNome() != null && t.getNome().toLowerCase().contains(q.toLowerCase()))
+        //            .toList();
+
+        List<ToolResponseDTO> all = toolService.findAll(); // novo método simples
         List<Tool> filtered = (q == null || q.isBlank())
-                ? all
+                ? all.stream().map(dto -> {
+                    Tool t = new Tool();
+                    t.setId(dto.getId());
+                    t.setNome(dto.getNome());
+                    t.setDescricao(dto.getDescricao());
+                    t.setCategoria(dto.getCategoria());
+                    t.setPreco(dto.getPreco());
+                    t.setCondicao(dto.getCondicao());
+                    t.setDisponibilidade(dto.getDisponibilidade());
+                    t.setFotos(null); // Fotos não são necessárias para a listagem
+                    return t;
+                }).toList()
                 : all.stream()
                     .filter(t -> t.getNome() != null && t.getNome().toLowerCase().contains(q.toLowerCase()))
+                    .map(dto -> {
+                        Tool t = new Tool();
+                        t.setId(dto.getId());
+                        t.setNome(dto.getNome());
+                        t.setDescricao(dto.getDescricao());
+                        t.setCategoria(dto.getCategoria());
+                        t.setPreco(dto.getPreco());
+                        t.setCondicao(dto.getCondicao());
+                        t.setDisponibilidade(dto.getDisponibilidade());
+                        t.setFotos(null); // Fotos não são necessárias para a listagem
+                        return t;
+                    })
                     .toList();
 
         // 2) Paginar (simplificado)

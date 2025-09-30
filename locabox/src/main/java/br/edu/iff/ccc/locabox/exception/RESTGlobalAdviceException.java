@@ -15,6 +15,8 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
+import br.edu.iff.ccc.locabox.exception.RentalNotAvaible;
+
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.ConstraintViolationException;
 
@@ -43,6 +45,21 @@ public class RESTGlobalAdviceException {
     public ProblemDetail handleToolNotExist(ToolNotExist ex, HttpServletRequest req) {
         String titulo = "Produto não encontrado";
         return buildProblem(HttpStatus.NOT_FOUND, ex.getMessage(), req, ex, titulo);
+    }
+
+    @ExceptionHandler(RentalNotExist.class)
+    public ProblemDetail handleRentalNotExist(RentalNotExist ex, HttpServletRequest req) {
+        return buildProblem(HttpStatus.NOT_FOUND, ex.getMessage(), req, ex, "Recurso não encontrado");
+    }
+
+    @ExceptionHandler(RentalNotAvaible.class)
+    public ProblemDetail handleRentalNotAvailable(RentalNotAvaible ex, HttpServletRequest req) {
+        return buildProblem(HttpStatus.CONFLICT, ex.getMessage(), req, ex, "Ferramenta indisponível para o período solicitado");
+    }
+
+    @ExceptionHandler(RentalStartInPast.class)
+    public ProblemDetail handleRentalStartInPast(RentalStartInPast ex, HttpServletRequest req) {
+        return buildProblem(HttpStatus.CONFLICT, ex.getMessage(), req, ex, "Data de início inválida");
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
@@ -86,5 +103,10 @@ public class RESTGlobalAdviceException {
         pd.setProperty("expectedType", ex.getRequiredType() != null ? ex.getRequiredType().getSimpleName() : "unknown");
         pd.setProperty("value", ex.getValue());
         return pd;
+    }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ProblemDetail handleIllegalArgument(IllegalArgumentException ex, HttpServletRequest req) {
+        return buildProblem(HttpStatus.BAD_REQUEST, ex.getMessage(), req, ex, "Bad Request");
     }
 }

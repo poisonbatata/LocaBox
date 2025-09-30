@@ -24,7 +24,7 @@ public class HomeController {
         // Populares simples: primeiros N itens (troque por métrica real quando tiver)
         var popular = toolService.findAll().stream()
                 .limit(8)
-                .map(ToolCardMapper::toCard)
+                //.map(ToolCardMapper::toCard)
                 .toList();
 
         model.addAttribute("popularItems", popular);

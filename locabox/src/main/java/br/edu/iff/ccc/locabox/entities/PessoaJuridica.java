@@ -1,3 +1,4 @@
+/*
 package br.edu.iff.ccc.locabox.entities;
 
 import jakarta.persistence.Entity;
@@ -12,3 +13,4 @@ public class PessoaJuridica extends Person {
     public String getCnpj() { return cnpj; }
     public void setCnpj(String cnpj) { this.cnpj = cnpj; }
 }
+*/

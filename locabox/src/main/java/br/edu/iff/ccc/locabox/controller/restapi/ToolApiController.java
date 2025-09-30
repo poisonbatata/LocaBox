@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import br.edu.iff.ccc.locabox.dto.ToolResponseDTO;
 import br.edu.iff.ccc.locabox.entities.Tool;
 import br.edu.iff.ccc.locabox.services.ToolService;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -25,19 +26,15 @@ public class ToolApiController {
     // GET all tools
     @Operation(summary = "Listar todas as ferramentas", description = "Retorna uma lista de todas as ferramentas cadastradas.")
     @GetMapping
-    public ResponseEntity<List<Tool>> getTools() {
+    public ResponseEntity<List<ToolResponseDTO>> getTools() {
         return ResponseEntity.ok(toolService.findAll());
     }
 
     // GET tool by id
     @Operation(summary = "Buscar ferramenta por ID", description = "Retorna uma ferramenta específica pelo seu ID.")
     @GetMapping("/{id}")
-    public ResponseEntity<Tool> getToolById(@Parameter(description = "ID da ferramenta") @PathVariable Long id) {
-        Tool tool = toolService.findById(id);
-        if (tool == null) {
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.ok(tool);
+    public ResponseEntity<ToolResponseDTO> getToolById(@PathVariable Long id) {
+        return ResponseEntity.ok(toolService.findByIdAsDTO(id));
     }
 
     // CREATE tool

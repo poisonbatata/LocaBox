@@ -1,10 +1,12 @@
 package br.edu.iff.ccc.locabox.services;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
+import br.edu.iff.ccc.locabox.dto.UserSystemResponseDTO;
 import br.edu.iff.ccc.locabox.entities.UserSystem;
 import br.edu.iff.ccc.locabox.exception.UserNotExist;
 import br.edu.iff.ccc.locabox.repository.UserSystemRepository;
@@ -18,13 +20,25 @@ public class UserSystemService {
         this.userRepository = userRepository;
     }
 
-    public List<UserSystem> findAll() {
-        return userRepository.findAll();
+
+    private UserSystemResponseDTO toDTO(UserSystem user) {
+        return new UserSystemResponseDTO(user.getId(), user.getNome(), user.getEmail(), user.getStatus(), user.getRole());
     }
 
+    // Altere os métodos públicos para retornarem DTOs
+    public List<UserSystemResponseDTO> findAll() {
+        return userRepository.findAll().stream().map(this::toDTO).collect(Collectors.toList());
+    }
+
+    public UserSystemResponseDTO findByIdAsDTO(Long id) {
+        UserSystem user = userRepository.findById(id).orElseThrow(() -> new UserNotExist(id));
+        return toDTO(user);
+    }
+    
     public UserSystem findById(Long id) {
         return userRepository.findById(id).orElseThrow(() -> new UserNotExist(id));
     }
+
 
     public UserSystem findByEmail(String email) {
         UserSystem user = userRepository.findByEmail(email);
@@ -58,10 +72,11 @@ public class UserSystemService {
         return userRepository.save(existing);
     }
 
-    public boolean deleteById(Long id) {
-        if (!userRepository.existsById(id)) return false;
+    public void deleteById(Long id) {
+        if (!userRepository.existsById(id)) {
+            throw new UserNotExist(id);
+        }
         userRepository.deleteById(id);
-        return true;
     }
 
     public List<UserSystem> searchByNome(String termo) {

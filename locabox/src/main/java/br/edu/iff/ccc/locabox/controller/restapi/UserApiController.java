@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import br.edu.iff.ccc.locabox.dto.UserSystemResponseDTO;
 import br.edu.iff.ccc.locabox.entities.UserSystem;
 import br.edu.iff.ccc.locabox.exception.UserNotExist;
 import br.edu.iff.ccc.locabox.services.UserSystemService;
@@ -28,7 +29,7 @@ public class UserApiController {
 
     @Operation(summary = "Listar todos os usuários")
     @GetMapping
-    public ResponseEntity<List<UserSystem>> getAll() {
+    public ResponseEntity<List<UserSystemResponseDTO>> getAll() {
         return ResponseEntity.ok(userService.findAll());
     }
 
@@ -68,11 +69,7 @@ public class UserApiController {
     @Operation(summary = "Deletar usuário")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
-        boolean deleted = userService.deleteById(id);
-        if (deleted) {
-            return ResponseEntity.noContent().build();
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+        userService.deleteById(id); // lança UserNotExist se não existir
+        return ResponseEntity.noContent().build(); // 204 em sucesso
     }
 }

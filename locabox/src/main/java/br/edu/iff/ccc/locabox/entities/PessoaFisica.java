@@ -1,3 +1,4 @@
+/*
 package br.edu.iff.ccc.locabox.entities;
 
 import jakarta.persistence.Entity;
@@ -12,3 +13,4 @@ public class PessoaFisica extends Person {
     public String getCpf() { return cpf; }
     public void setCpf(String cpf) { this.cpf = cpf; }
 }
+*/
