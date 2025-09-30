@@ -12,6 +12,7 @@ Pacote base: `br.edu.iff.ccc.locabox`
 - Java 17
 - Spring Boot 3.5.x (Web, Thymeleaf, Data JPA, Validation, Actuator)
 - H2 Database (modo arquivo) + H2 Console
+- SpringDoc OpenAPI (Swagger UI)
 - Maven Wrapper (mvnw)
 
 Obs.: O conector MySQL está presente no POM para futura integração, mas o perfil de desenvolvimento atual usa H2 (arquivo local).
@@ -20,8 +21,8 @@ Obs.: O conector MySQL está presente no POM para futura integração, mas o per
 
 ## ▶️ Como Executar (Desenvolvimento)
 
-### Pré-requisitos
-- Windows com JDK 17 instalado e no PATH (confira com `java -version`)
+Pré-requisitos
+- Windows com JDK 17+ no PATH (`java -version`)
 - Git instalado
 - NÃO é necessário instalar Maven: o projeto já inclui o Maven Wrapper (`mvnw.cmd`)
 
@@ -34,7 +35,7 @@ cd LocaBox\locabox
 # 2) (Opcional) Verificar o Maven Wrapper
 .\mvnw.cmd -v
 
-# 3) Rodar a aplicação
+# 3) Executar a aplicação
 .\mvnw.cmd spring-boot:run
 
 # 4) Acessar no navegador
@@ -66,18 +67,93 @@ spring.jpa.hibernate.ddl-auto=create  # use 'update' para preservar dados
 
 Arquivo de configuração: `locabox/src/main/resources/application.properties`.
 
+
+# Console H2
+spring.h2.console.enabled=true
+spring.h2.console.path=/h2-console
+
+# JPA/Hibernate
+spring.jpa.hibernate.ddl-auto=update
+spring.mvc.problemdetails.enabled=true
+```
+- O arquivo do banco será criado na raiz do módulo `locabox` como `data.exemplo.mv.db`.
+- Para resetar o banco (perder dados), pare a app e apague `data.exemplo*.mv.db`.
+
+
+URLs
+- App (home): http://localhost:8080/
+- API base: http://localhost:8080/api/v1
+- Swagger UI: http://localhost:8080/swagger-ui/index.html
+- OpenAPI JSON: http://localhost:8080/v3/api-docs
+- H2 Console: http://localhost:8080/h2-console
+
 ---
 
-## 🌐 Principais Endpoints (UI e API)
-- GET `/` → home (lista itens populares na landing page)
-- GET `/principal` → página principal alternativa
-- GET `/user/login` → tela de login
-- POST `/user/login` → autenticação (simples, ainda sem checagem de senha robusta)
-- GET `/user/signup` → cadastro de usuário
-- POST `/user/signup` → efetiva cadastro
-- GET `/user/{id}` → perfil do usuário
-- GET `/api/v1` → endpoint de saúde/boas-vindas da API
-- GET `/h2-console` → console de banco H2
+
+
+
+## 🌐 Endpoints Principais (API REST /api/v1)
+
+Users
+- GET /users
+- GET /users/{id}
+- POST /users  → 201 Created (Location)
+- PUT /users/{id}
+- DELETE /users/{id} → 204 No Content (404 se não existir)
+
+Tools
+- GET /tools
+- GET /tools/{id}
+- POST /tools  → 201 Created (Location)
+- PUT /tools/{id}
+- DELETE /tools/{id} → 204 No Content
+- GET /tools/search?nome=..., GET /tools/by-categoria?value=...
+
+Rentals
+- GET /rentals
+- GET /rentals/{id}
+- GET /rentals/by-status?value=PENDENTE
+- GET /rentals/by-renter/{renterId}
+- GET /rentals/by-tool/{toolId}
+- POST /rentals  → 201 Created (Location)
+- PUT /rentals/{id}
+- PATCH /rentals/{id}/status?status=ACEITA
+- DELETE /rentals/{id} → 204 No Content
+
+Códigos HTTP
+- 201 Created (com Location) em POST de criação
+- 200 OK em consultas/atualizações
+- 204 No Content em deleção
+- 404 Not Found quando o recurso não existe
+
+---
+
+## ❗ Problem Details (Erros padronizados)
+A API retorna erros no padrão RFC 7807 (ProblemDetail) com campos:
+- Titulo, url, Timestamp, status, message, exception, path
+
+Exemplos de regras tratadas:
+- Recurso não encontrado (404): UserNotExist, ToolNotExist, RentalNotExist
+- Indisponibilidade da ferramenta (409): RentalNotAvaible
+- Data de início no passado (409): RentalStartInPast
+- JSON inválido/data inexistente (400): mensagem clara para datas inválidas (ex.: 2025-09-31)
+
+---
+
+## 📚 Documentação Swagger
+Dependência (caso ainda não esteja no pom.xml):
+```xml
+<dependency>
+  <groupId>org.springdoc</groupId>
+  <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+  <version>2.6.0</version>
+</dependency>
+```
+Acesse:
+- Swagger UI: http://localhost:8080/swagger-ui/index.html
+- OpenAPI JSON: http://localhost:8080/v3/api-docs
+
+Use as anotações @Tag, @Operation, @ApiResponses nos controllers para enriquecer a documentação.
 
 ---
 
@@ -121,7 +197,7 @@ Abra os arquivos HTML localmente para navegar pelos protótipos de tela.
 ## 🧪 Dicas e Solução de Problemas
 - Java 17: se a versão estiver diferente, ajuste o JAVA_HOME e/ou PATH.
 - Porta 8080 ocupada: altere `server.port` em `application.properties` (ex.: `server.port=8081`).
-- H2 Console não conecta: confira o JDBC URL exatamente como acima.
+- H2 Console: use JDBC `jdbc:h2:file:./data.exemplo`, user `sa`, senha `password`.
 - Erro de Maven no Windows: use `mvnw.cmd` (e não `mvnw`).
 
 ---
