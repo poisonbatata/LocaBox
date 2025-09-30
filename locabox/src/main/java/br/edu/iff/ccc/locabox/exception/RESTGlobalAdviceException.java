@@ -1,11 +1,13 @@
 package br.edu.iff.ccc.locabox.exception;
 
 import java.net.URI;
+import java.time.Instant;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ProblemDetail;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.FieldError;
@@ -19,19 +21,34 @@ import jakarta.validation.ConstraintViolationException;
 @RestControllerAdvice
 public class RESTGlobalAdviceException {
 
+    private ProblemDetail buildProblem(HttpStatus status, String message, HttpServletRequest req, Exception ex, String Title) {
+        ProblemDetail pd = ProblemDetail.forStatusAndDetail(status, message);
+        pd.setTitle(Title);
+        pd.setProperty("url", req.getRequestURL().toString());
+        pd.setProperty("Timestamp", Instant.now().toString());
+        pd.setProperty("status", HttpStatusCode.valueOf(pd.getStatus()).toString());
+        pd.setProperty("message", message);
+        pd.setProperty("exception", ex.getClass().getName());
+        pd.setProperty("path", req.getRequestURI());
+        return pd;
+    }
+
     @ExceptionHandler(UserNotExist.class)
     public ProblemDetail handleUserNotExist(UserNotExist ex, HttpServletRequest req) {
-        ProblemDetail pd = ProblemDetail.forStatusAndDetail(HttpStatus.NOT_FOUND, ex.getMessage());
-        pd.setTitle("Recurso não encontrado");
-        pd.setInstance(URI.create(req.getRequestURI()));
-        return pd;
+        String titulo = "Usuário não encontrado";
+        return buildProblem(HttpStatus.NOT_FOUND, ex.getMessage(), req, ex, titulo);
+    }
+
+    @ExceptionHandler(ToolNotExist.class)
+    public ProblemDetail handleToolNotExist(ToolNotExist ex, HttpServletRequest req) {
+        String titulo = "Produto não encontrado";
+        return buildProblem(HttpStatus.NOT_FOUND, ex.getMessage(), req, ex, titulo);
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ProblemDetail handleValidation(MethodArgumentNotValidException ex, HttpServletRequest req) {
-        ProblemDetail pd = ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, "Erro de validação nos campos");
-        pd.setTitle("Bad Request");
-        pd.setInstance(URI.create(req.getRequestURI()));
+        String titulo = "Erro de validação nos campos";
+        ProblemDetail pd = buildProblem(HttpStatus.BAD_REQUEST, "Erro de validação nos campos", req, ex, titulo);
         Map<String, String> errors = new HashMap<>();
         for (FieldError fe : ex.getBindingResult().getFieldErrors()) {
             errors.put(fe.getField(), fe.getDefaultMessage());
@@ -42,48 +59,31 @@ public class RESTGlobalAdviceException {
 
     @ExceptionHandler(ConstraintViolationException.class)
     public ProblemDetail handleConstraint(ConstraintViolationException ex, HttpServletRequest req) {
-        ProblemDetail pd = ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, "Violação de constraint");
-        pd.setTitle("Bad Request");
-        pd.setInstance(URI.create(req.getRequestURI()));
-        pd.setProperty("violations", ex.getConstraintViolations().toString());
-        return pd;
+        String titulo = "Violação de constraint";
+        return buildProblem(HttpStatus.BAD_REQUEST, "Violação de constraint", req, ex, titulo);
     }
 
     @ExceptionHandler(DataIntegrityViolationException.class)
     public ProblemDetail handleDataIntegrity(DataIntegrityViolationException ex, HttpServletRequest req) {
         String msg = ex.getMostSpecificCause() != null ? ex.getMostSpecificCause().getMessage() : ex.getMessage();
         HttpStatus status = msg != null && msg.toLowerCase().contains("email") ? HttpStatus.CONFLICT : HttpStatus.BAD_REQUEST;
-        ProblemDetail pd = ProblemDetail.forStatusAndDetail(status, msg);
-        pd.setTitle(status == HttpStatus.CONFLICT ? "Conflito de dados" : "Bad Request");
-        pd.setInstance(URI.create(req.getRequestURI()));
-        return pd;
+        String titulo = "Violação de integridade de dados";
+        return buildProblem(status, msg, req, ex, titulo);
     }
 
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public ProblemDetail handleNotReadable(HttpMessageNotReadableException ex, HttpServletRequest req) {
-        ProblemDetail pd = ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, "JSON inválido ou incompleto");
-        pd.setTitle("Bad Request");
-        pd.setInstance(URI.create(req.getRequestURI()));
-        return pd;
-    }
-
-    @ExceptionHandler(ToolNotExist.class)
-    public ProblemDetail handleToolNotExist(ToolNotExist ex, HttpServletRequest req) {
-        ProblemDetail pd = ProblemDetail.forStatusAndDetail(HttpStatus.NOT_FOUND, ex.getMessage());
-        pd.setTitle("Recurso não encontrado");
-        pd.setInstance(URI.create(req.getRequestURI()));
-        return pd;
+        String titulo = "JSON inválido ou incompleto";
+        return buildProblem(HttpStatus.BAD_REQUEST, "JSON inválido ou incompleto", req, ex, titulo);
     }
 
     // Converte erros de path params inválidos (ex.: /tool/abc) em 400 com ProblemDetail
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
     public ProblemDetail handleTypeMismatch(MethodArgumentTypeMismatchException ex, HttpServletRequest req) {
-        ProblemDetail pd = ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST,
-                "Parâmetro inválido: " + ex.getName());
-        pd.setTitle("Bad Request");
-        pd.setInstance(URI.create(req.getRequestURI()));
-        pd.setProperty("expectedType",
-                ex.getRequiredType() != null ? ex.getRequiredType().getSimpleName() : "unknown");
+        String msg = "Parâmetro inválido: " + ex.getName();
+        String titulo = "Parâmetro inválido";
+        ProblemDetail pd = buildProblem(HttpStatus.BAD_REQUEST, msg, req, ex, titulo);
+        pd.setProperty("expectedType", ex.getRequiredType() != null ? ex.getRequiredType().getSimpleName() : "unknown");
         pd.setProperty("value", ex.getValue());
         return pd;
     }
